@@ -2,3 +2,5 @@
 - [x] Recreate the TrustGuard dashboard and its supplied styling at the home page.
 - [x] Validate the page, scan animation, and settings interaction in the preview.
 - [x] Update migration status and report the missing live scanning capability.
+- [ ] Show analysis results only after a valid mock scan completes.
+- [ ] Verify the full three-second scan flow and responsive layout.
