@@ -33,7 +33,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SCAN_DURATION_MS, SCAN_STEPS } from "@/lib/scan";
+import { normalizeTargetUrl, SCAN_DURATION_MS, SCAN_STEPS } from "@/lib/scan";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -83,10 +83,12 @@ const threats = [
 ];
 
 function Dashboard() {
-  const [url, setUrl] = useState("https://secure-banking-portal.com");
+  const [url, setUrl] = useState("");
   const [scanning, setScanning] = useState(false);
   const [step, setStep] = useState(0);
-  const [scannedUrl, setScannedUrl] = useState("secure-banking-portal.com");
+  const [scannedUrl, setScannedUrl] = useState("");
+  const [hasScanned, setHasScanned] = useState(false);
+  const [validationMessage, setValidationMessage] = useState("");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [notificationsOn, setNotificationsOn] = useState(true);
@@ -97,7 +99,7 @@ function Dashboard() {
     try {
       return new URL(trimmed.includes("://") ? trimmed : `https://${trimmed}`).hostname;
     } catch {
-      return trimmed || "unknown-domain";
+      return trimmed;
     }
   }, [scannedUrl]);
 
@@ -110,12 +112,14 @@ function Dashboard() {
       if (elapsed >= SCAN_DURATION_MS) {
         setScanning(false);
         setStep(SCAN_STEPS.length);
+        setHasScanned(true);
       }
     };
     const interval = window.setInterval(updateStep, 180);
     const timeout = window.setTimeout(() => {
       setScanning(false);
       setStep(SCAN_STEPS.length);
+      setHasScanned(true);
     }, SCAN_DURATION_MS);
     return () => {
       window.clearInterval(interval);
@@ -125,8 +129,16 @@ function Dashboard() {
 
   function startScan(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (scanning || !url.trim()) return;
-    setScannedUrl(url.trim());
+    if (scanning) return;
+    const normalizedUrl = normalizeTargetUrl(url);
+    if (!normalizedUrl) {
+      setValidationMessage("Enter a valid web address to begin the scan.");
+      return;
+    }
+    setValidationMessage("");
+    setUrl(normalizedUrl);
+    setScannedUrl(normalizedUrl);
+    setHasScanned(false);
     setStep(0);
     setScanning(true);
   }
