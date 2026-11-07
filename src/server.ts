@@ -79,6 +79,65 @@ export default {
       }
     }
 
+    if (url.pathname === "/api/bulk-scan" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as { urls?: string[] };
+        if (!body.urls || !Array.isArray(body.urls) || body.urls.length === 0) {
+          return new Response(
+            JSON.stringify({ error: "Missing or invalid urls array parameter" }),
+            {
+              status: 400,
+              headers: { "content-type": "application/json" },
+            },
+          );
+        }
+
+        // Limit to max 12 domains to prevent resource exhaustion
+        const targetList = body.urls
+          .map((u) => (typeof u === "string" ? u.trim() : ""))
+          .filter(Boolean)
+          .slice(0, 12);
+
+        // Run scans concurrently with Promise.allSettled
+        const results = await Promise.allSettled(
+          targetList.map(async (target) => {
+            const scan = await executeFullScan(target);
+            return scan;
+          }),
+        );
+
+        const payload = results.map((res, idx) => {
+          const rawTarget = targetList[idx] || "unknown";
+          if (res.status === "fulfilled") {
+            return {
+              target: rawTarget,
+              success: true,
+              result: res.value,
+              error: null,
+            };
+          } else {
+            const err = res.reason;
+            return {
+              target: rawTarget,
+              success: false,
+              result: null,
+              error: err instanceof Error ? err.message : String(err),
+            };
+          }
+        });
+
+        return new Response(JSON.stringify({ count: payload.length, results: payload }), {
+          headers: { "content-type": "application/json" },
+        });
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return new Response(JSON.stringify({ error: message }), {
+          status: 400,
+          headers: { "content-type": "application/json" },
+        });
+      }
+    }
+
     if (url.pathname === "/api/threats" && request.method === "GET") {
       const threats = getAllThreats();
       return new Response(JSON.stringify(threats), {

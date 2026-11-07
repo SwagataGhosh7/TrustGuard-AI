@@ -18,6 +18,7 @@ import {
   Terminal,
 } from "lucide-react";
 
+import { BulkUrlScanner } from "@/components/BulkUrlScanner";
 import { CommunityThreatFeed } from "@/components/CommunityThreatFeed";
 import { ShareReportModal } from "@/components/ShareReportModal";
 import { TrustScoreTrendChart } from "@/components/TrustScoreTrendChart";
@@ -171,6 +172,13 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             </button>
             <button
               type="button"
+              onClick={() => navigateTo("bulk-scanner")}
+              className="hover:text-foreground transition-colors whitespace-nowrap shrink-0"
+            >
+              Bulk Audit
+            </button>
+            <button
+              type="button"
               onClick={() => navigateTo("trust-trends")}
               className="hover:text-foreground transition-colors whitespace-nowrap shrink-0"
             >
@@ -223,6 +231,13 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               className="block w-full text-left py-1 text-sm text-muted-foreground hover:text-foreground"
             >
               Dashboard
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("bulk-scanner")}
+              className="block w-full text-left py-1 text-sm text-muted-foreground hover:text-foreground"
+            >
+              Bulk Audit
             </button>
             <button
               type="button"
@@ -732,6 +747,21 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             />
           </section>
         )}
+
+        {/* Bulk URL Concurrent Threat Assessment Matrix */}
+        <section id="bulk-scanner" className="pt-8">
+          <BulkUrlScanner
+            onInspectDomain={(domain, scanData) => {
+              setUrlInput(domain);
+              if (scanData) {
+                setScanResult(scanData);
+              } else {
+                handleScan(domain);
+              }
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
+        </section>
 
         {/* Certificate Trust Score Trend Surveillance Line Chart */}
         <section id="trust-trends" className="pt-8">
