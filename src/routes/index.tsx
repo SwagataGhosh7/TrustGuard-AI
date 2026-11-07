@@ -137,7 +137,29 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
 
   function navigateTo(id: string) {
     setMobileNavOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
+    // If navigating to Certificate Audit, ensure scanResult exists or auto-load audit
+    if (id === "cert-inspector") {
+      if (!scanResult) {
+        // Automatically run an audit on the current input or trusted baseline so the section is rendered
+        handleScan(urlInput.trim() || "github.com");
+      }
+      setTimeout(() => {
+        document.getElementById("cert-inspector")?.scrollIntoView({ behavior: "smooth" });
+      }, 350);
+      return;
+    }
+
+    if (id === "analyze") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      document.getElementById("target-domain-input")?.focus();
+      return;
+    }
+
+    const targetEl = document.getElementById(id);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth" });
+    }
   }
 
   return (
@@ -162,14 +184,14 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             </span>
           </a>
 
-          {/* Zone 2: 4 Clean single-line text navigation links */}
+          {/* Zone 2: Clean single-line text navigation links */}
           <nav className="hidden md:flex items-center gap-7 text-xs font-medium text-muted-foreground">
             <button
               type="button"
-              onClick={() => navigateTo("dashboard")}
+              onClick={() => navigateTo("analyze")}
               className="hover:text-foreground transition-colors whitespace-nowrap shrink-0"
             >
-              Dashboard
+              Analyze
             </button>
             <button
               type="button"
@@ -213,6 +235,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
           <div className="flex items-center gap-3 shrink-0">
             <Button
               onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
                 document.getElementById("target-domain-input")?.focus();
               }}
               className="h-9 px-4 text-xs font-semibold whitespace-nowrap shrink-0 rounded-none bg-primary text-primary-foreground hover:bg-primary/90"
@@ -235,10 +258,10 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
           <div className="md:hidden border-t border-border px-5 py-3 space-y-2 bg-card">
             <button
               type="button"
-              onClick={() => navigateTo("dashboard")}
+              onClick={() => navigateTo("analyze")}
               className="block w-full text-left py-1 text-sm text-muted-foreground hover:text-foreground"
             >
-              Dashboard
+              Analyze
             </button>
             <button
               type="button"
@@ -279,7 +302,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
         )}
       </header>
 
-      <main id="dashboard" className="mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8 lg:px-12">
+      <main id="analyze" className="mx-auto max-w-[1440px] px-5 pb-16 pt-8 sm:px-8 lg:px-12">
         {/* Hero Section & Live Socket Probing Engine */}
         <section className="border-b border-border pb-10">
           <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -401,7 +424,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
 
         {/* Scan Results View (Rendered when real scan data is present) */}
         {scanResult && (
-          <section className="pt-8 space-y-6">
+          <section id="scan-results" className="pt-8 space-y-6">
             {/* Investigation Top Banner */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border border-border bg-card p-5">
               <div>
@@ -800,7 +823,9 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
         />
 
         {/* Browser Extension Integration Guide & Snippet Suite */}
-        <BrowserExtensionGuide />
+        <section id="extension-guide" className="pt-8">
+          <BrowserExtensionGuide />
+        </section>
 
         {/* Footer */}
         <footer className="mt-14 border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-3">

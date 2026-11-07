@@ -220,7 +220,7 @@ ${contentSnippet}
   };
 
   return (
-    <section id="extension-integration" className="border border-border bg-card p-6 space-y-6">
+    <section id="extension-guide" className="border border-border bg-card p-6 space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-border pb-5">
         <div>
