@@ -1,0 +1,19 @@
+{
+  "source": "code archive: pixel-perfect-main.zip",
+  "capabilities": [
+    { "capability": "code", "source": "project archive", "outcome": "TanStack Start shell and generated UI primitives detected; application page currently contains a blank-template placeholder", "status": "in_progress", "next_action": "Inspect supplied source files and recreate the actual available experience at the home page" },
+    { "capability": "schema", "source": "project archive", "outcome": "No database schema or migrations detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "records", "source": "project archive", "outcome": "No data store or record export detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "auth identities", "source": "project archive", "outcome": "No authentication flow or user export detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "authorization", "source": "project archive", "outcome": "No roles or access-control rules detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "uploaded file bytes", "source": "project archive", "outcome": "No application-uploaded media or documents detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "external providers", "source": "project archive", "outcome": "No connected external services detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "public endpoints", "source": "project archive", "outcome": "No public API endpoints detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "callbacks", "source": "project archive", "outcome": "No external callbacks detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "webhooks", "source": "project archive", "outcome": "No webhooks detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "schedules", "source": "project archive", "outcome": "No scheduled jobs detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "secrets", "source": "project archive", "outcome": "No required environment variables detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "cutover", "source": "project archive", "outcome": "No live integrations or production endpoints detected", "status": "not_applicable", "next_action": "None detected" },
+    { "capability": "verification", "source": "Lovable project", "outcome": "Pending source inspection and preview validation", "status": "pending", "next_action": "Validate the home page and any discovered behavior" }
+  ]
+}
