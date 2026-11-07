@@ -18,6 +18,7 @@ import {
   Terminal,
 } from "lucide-react";
 
+import { BrowserExtensionGuide } from "@/components/BrowserExtensionGuide";
 import { BulkUrlScanner } from "@/components/BulkUrlScanner";
 import { CommunityThreatFeed } from "@/components/CommunityThreatFeed";
 import { ShareReportModal } from "@/components/ShareReportModal";
@@ -194,6 +195,13 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             </button>
             <button
               type="button"
+              onClick={() => navigateTo("extension-guide")}
+              className="hover:text-foreground transition-colors whitespace-nowrap shrink-0"
+            >
+              Browser Extension
+            </button>
+            <button
+              type="button"
               onClick={() => navigateTo("cert-inspector")}
               className="hover:text-foreground transition-colors whitespace-nowrap shrink-0"
             >
@@ -252,6 +260,13 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               className="block w-full text-left py-1 text-sm text-muted-foreground hover:text-foreground"
             >
               Community Intelligence
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("extension-guide")}
+              className="block w-full text-left py-1 text-sm text-muted-foreground hover:text-foreground"
+            >
+              Browser Extension
             </button>
             <button
               type="button"
@@ -783,6 +798,9 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         />
+
+        {/* Browser Extension Integration Guide & Snippet Suite */}
+        <BrowserExtensionGuide />
 
         {/* Footer */}
         <footer className="mt-14 border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-3">
