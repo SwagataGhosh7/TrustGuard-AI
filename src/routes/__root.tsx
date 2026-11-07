@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "description",
         content: "Investigate domains with TrustGuard AI's digital trust intelligence dashboard.",
       },
-      { author: "TrustGuard AI" },
+      { name: "author", content: "TrustGuard AI" },
       { property: "og:title", content: "TrustGuard AI — Digital Trust Intelligence" },
       {
         property: "og:description",
