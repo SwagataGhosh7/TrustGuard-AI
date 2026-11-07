@@ -44,8 +44,91 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+import { executeFullScan } from "./server/scanner";
+import { addThreatReport, getAllThreats, voteThreatReport } from "./server/threat-store";
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/api/ping") {
+      return new Response(JSON.stringify({ pong: true }), {
+        headers: { "content-type": "application/json" },
+      });
+    }
+
+    if (url.pathname === "/api/scan" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as { targetUrl?: string };
+        if (!body.targetUrl || typeof body.targetUrl !== "string") {
+          return new Response(JSON.stringify({ error: "Missing or invalid targetUrl parameter" }), {
+            status: 400,
+            headers: { "content-type": "application/json" },
+          });
+        }
+        const result = await executeFullScan(body.targetUrl);
+        return new Response(JSON.stringify(result), {
+          headers: { "content-type": "application/json" },
+        });
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return new Response(JSON.stringify({ error: message }), {
+          status: 400,
+          headers: { "content-type": "application/json" },
+        });
+      }
+    }
+
+    if (url.pathname === "/api/threats" && request.method === "GET") {
+      const threats = getAllThreats();
+      return new Response(JSON.stringify(threats), {
+        headers: { "content-type": "application/json" },
+      });
+    }
+
+    if (url.pathname === "/api/threats" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as {
+          domain: string;
+          vector: string;
+          severity: "Critical" | "High" | "Medium" | "Low";
+          reporter?: string;
+          notes: string;
+          tags?: string[];
+        };
+        const created = addThreatReport(body);
+        return new Response(JSON.stringify(created), {
+          status: 201,
+          headers: { "content-type": "application/json" },
+        });
+      } catch (err: unknown) {
+        return new Response(JSON.stringify({ error: String(err) }), {
+          status: 400,
+          headers: { "content-type": "application/json" },
+        });
+      }
+    }
+
+    if (url.pathname === "/api/threats/vote" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as { id: string; delta: number };
+        const updated = voteThreatReport(body.id, body.delta || 1);
+        if (!updated) {
+          return new Response(JSON.stringify({ error: "Threat report not found" }), {
+            status: 404,
+            headers: { "content-type": "application/json" },
+          });
+        }
+        return new Response(JSON.stringify(updated), {
+          headers: { "content-type": "application/json" },
+        });
+      } catch (err: unknown) {
+        return new Response(JSON.stringify({ error: String(err) }), {
+          status: 400,
+          headers: { "content-type": "application/json" },
+        });
+      }
+    }
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

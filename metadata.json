@@ -1,0 +1,5 @@
+{
+  "name": "TrustGuard AI",
+  "description": "AI-powered web threat detection and digital trust intelligence dashboard.",
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
