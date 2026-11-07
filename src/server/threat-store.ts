@@ -22,7 +22,7 @@ const threatStore: CommunityThreatReport[] = [
     reporter: "SecOps_Falcon",
     notes:
       "Direct clone of net banking portal requesting OTP and debit card PIN. Hosted on bulletproof ASN.",
-    tags: ["Banking Phishing", "Credential Theft", "Homoglyph"],
+    tags: ["phishing", "impersonation", "credential theft"],
     status: "Verified Malicious",
   },
   {
@@ -35,7 +35,7 @@ const threatStore: CommunityThreatReport[] = [
     reporter: "CryptoAudit_Lab",
     notes:
       "Demonstrates weak entropy in RSA modulus generation linked to eMudhra CA key generation vulnerability incident.",
-    tags: ["eMudhra", "Weak RSA", "CA Compromise", "TLS Incident"],
+    tags: ["eMudhra", "weak key", "impersonation"],
     status: "Verified Malicious",
   },
   {
@@ -48,7 +48,7 @@ const threatStore: CommunityThreatReport[] = [
     reporter: "ThreatHunter99",
     notes:
       "Uses uppercase 'I' to mimic lowercase 'l' in PayPal. Harvests login credentials and recovery questions.",
-    tags: ["Punycode", "Phishing", "Payment Fraud"],
+    tags: ["phishing", "impersonation", "punycode"],
     status: "Verified Malicious",
   },
   {
@@ -61,7 +61,7 @@ const threatStore: CommunityThreatReport[] = [
     reporter: "CertTracker_Bot",
     notes:
       "Fake SSO prompt attempting to steal Google Workspace session cookies. Self-signed TLS fallback.",
-    tags: ["OAuth Phishing", "Fake SSO", "Untrusted CA"],
+    tags: ["phishing", "malware", "fake sso"],
     status: "Verified Malicious",
   },
   {
@@ -74,7 +74,7 @@ const threatStore: CommunityThreatReport[] = [
     reporter: "EnterpriseDefense",
     notes:
       "Deceptive popups warning user of virus infection and directing to download malicious remote-support exe.",
-    tags: ["Tech Support Scam", "Malware Dropper"],
+    tags: ["malware", "tech support", "dropper"],
     status: "Flagged by AI",
   },
   {
@@ -87,7 +87,7 @@ const threatStore: CommunityThreatReport[] = [
     reporter: "CyberCell_Alert",
     notes:
       "Promoted via bulk SMS claiming bank account suspension unless PAN card is uploaded immediately.",
-    tags: ["KYC Phishing", "SMS Phishing", "Identity Theft"],
+    tags: ["phishing", "impersonation", "smishing"],
     status: "Verified Malicious",
   },
 ];
