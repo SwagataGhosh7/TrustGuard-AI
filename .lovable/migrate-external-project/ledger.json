@@ -4,7 +4,7 @@
     {
       "capability": "code",
       "source": "project archive",
-      "outcome": "TrustGuard AI dashboard and provided styling recreated; settings, scan animation, and report-copy action work in preview. Scanning findings and feed are static sample data.",
+      "outcome": "TrustGuard AI dashboard and provided styling recreated; blank initial state, URL validation, three-second scan sequence, results reveal, settings, and responsive threat feed work in preview. Findings remain static sample data.",
       "status": "implemented",
       "next_action": "Provide a scanning API/provider if actual domain checks are required"
     },
@@ -95,7 +95,7 @@
     {
       "capability": "verification",
       "source": "Lovable project",
-      "outcome": "Routing test and typecheck passed; desktop preview verified for page, settings, and scan animation. No runtime errors or failed network requests observed.",
+      "outcome": "Routing and six scan logic tests pass; typecheck passes. Preview scan remains in progress until the three-second sequence finishes, then displays the entered domain and results. Verified 390px mobile and 883px viewport widths without overflow or runtime errors.",
       "status": "verified",
       "next_action": "None for the included preview behaviors"
     },
