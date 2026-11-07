@@ -1,0 +1,4 @@
+- [x] Inspect the supplied archive and record its detected capabilities.
+- [ ] Recreate the TrustGuard dashboard and its supplied styling at the home page.
+- [ ] Validate the page, scan animation, and settings interaction in the preview.
+- [ ] Update migration status and report any missing production capabilities.
