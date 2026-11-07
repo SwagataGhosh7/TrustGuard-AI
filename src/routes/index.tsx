@@ -314,7 +314,7 @@ function Dashboard() {
           </section>
         )}
 
-        {(hasScanned || scanning) && (
+        {hasScanned && (
           <>
         <section aria-label="Scan overview" className="grid grid-cols-2 border-b border-border py-5 sm:grid-cols-4">
           <Metric label="Domains monitored" value="24,891" delta="+8.2%" trend="up" icon={<Globe2 size={16} />} />
@@ -355,7 +355,7 @@ function Dashboard() {
             <div>
               <div className="mb-1 flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.12em] text-primary">
                 <span className="relative flex size-2"><span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-35" /><span className="relative inline-flex size-2 rounded-full bg-success" /></span>
-                Global network · live
+                Global network · sample
               </div>
               <h2 className="text-lg font-semibold">Threat intelligence feed</h2>
             </div>
@@ -383,7 +383,7 @@ function Dashboard() {
 
         <footer className="mt-10 flex flex-col gap-2 border-t border-border pt-4 text-[10px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <span>TRUSTGUARD AI <span className="mx-1.5">·</span> THREAT INTELLIGENCE NETWORK</span>
-          <span className="flex items-center gap-1.5"><Signal size={12} className="text-success" /> All systems operational <span className="mx-1">·</span> Data refreshes continuously</span>
+          <span className="flex items-center gap-1.5"><Signal size={12} className="text-success" /> Sample threat intelligence <span className="mx-1">·</span> Live scanning not connected</span>
         </footer>
       </main>
 
