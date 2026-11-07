@@ -33,7 +33,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SCAN_DURATION_MS, SCAN_STEPS } from "@/lib/scan";
+import { normalizeTargetUrl, SCAN_DURATION_MS, SCAN_STEPS } from "@/lib/scan";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -83,10 +83,12 @@ const threats = [
 ];
 
 function Dashboard() {
-  const [url, setUrl] = useState("https://secure-banking-portal.com");
+  const [url, setUrl] = useState("");
   const [scanning, setScanning] = useState(false);
   const [step, setStep] = useState(0);
-  const [scannedUrl, setScannedUrl] = useState("secure-banking-portal.com");
+  const [scannedUrl, setScannedUrl] = useState("");
+  const [hasScanned, setHasScanned] = useState(false);
+  const [validationMessage, setValidationMessage] = useState("");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [notificationsOn, setNotificationsOn] = useState(true);
@@ -97,7 +99,7 @@ function Dashboard() {
     try {
       return new URL(trimmed.includes("://") ? trimmed : `https://${trimmed}`).hostname;
     } catch {
-      return trimmed || "unknown-domain";
+      return trimmed;
     }
   }, [scannedUrl]);
 
@@ -110,12 +112,14 @@ function Dashboard() {
       if (elapsed >= SCAN_DURATION_MS) {
         setScanning(false);
         setStep(SCAN_STEPS.length);
+        setHasScanned(true);
       }
     };
     const interval = window.setInterval(updateStep, 180);
     const timeout = window.setTimeout(() => {
       setScanning(false);
       setStep(SCAN_STEPS.length);
+      setHasScanned(true);
     }, SCAN_DURATION_MS);
     return () => {
       window.clearInterval(interval);
@@ -125,8 +129,16 @@ function Dashboard() {
 
   function startScan(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (scanning || !url.trim()) return;
-    setScannedUrl(url.trim());
+    if (scanning) return;
+    const normalizedUrl = normalizeTargetUrl(url);
+    if (!normalizedUrl) {
+      setValidationMessage("Enter a valid web address to begin the scan.");
+      return;
+    }
+    setValidationMessage("");
+    setUrl(normalizedUrl);
+    setScannedUrl(normalizedUrl);
+    setHasScanned(false);
     setStep(0);
     setScanning(true);
   }
@@ -209,7 +221,7 @@ function Dashboard() {
         <section className="relative isolate overflow-hidden border-b border-border pb-8 pt-2 sm:pb-10">
           <div className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-3/5 scan-grid opacity-25 [mask-image:linear-gradient(to_left,black,transparent)]" />
           <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
+            <div className="text-center sm:text-left">
               <div className="mb-3 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.13em] text-primary">
                 <span className="size-1.5 rounded-full bg-primary" />
                 Digital trust intelligence
@@ -219,17 +231,32 @@ function Dashboard() {
                 Investigate a domain. Surface hidden risk before it reaches your users.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground sm:justify-start">
               <Clock3 size={14} />
-              Last scan <span className="font-mono text-foreground">2 min ago</span>
-              <button onClick={() => { setUrl(`https://${domain}`); navigateTo("dashboard"); }} aria-label="Refresh latest scan" className="ml-1 inline-grid size-8 place-items-center border border-border text-muted-foreground transition-colors hover:text-primary">
-                <RefreshCw size={14} />
-              </button>
+              {hasScanned ? (
+                <>
+                  Last scan <span className="font-mono text-foreground">just now</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setUrl(`https://${domain}`);
+                      navigateTo("dashboard");
+                    }}
+                    aria-label="Refresh latest scan"
+                    className="ml-1 size-8 border border-border text-muted-foreground hover:text-primary"
+                  >
+                    <RefreshCw size={14} />
+                  </Button>
+                </>
+              ) : (
+                <span>Ready for a new scan</span>
+              )}
             </div>
           </div>
 
-          <form onSubmit={startScan} className="max-w-[940px]">
-            <label htmlFor="scan-url" className="mb-2 block text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+          <form onSubmit={startScan} className="mx-auto max-w-[940px]">
+            <label htmlFor="scan-url" className="mb-2 block text-center text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground sm:text-left">
               Target URL
             </label>
             <div className="flex flex-col gap-2 sm:flex-row">
@@ -244,15 +271,22 @@ function Dashboard() {
                   value={url}
                   onChange={(event) => setUrl(event.target.value)}
                   placeholder="Enter a URL or domain to analyze"
+                  aria-invalid={Boolean(validationMessage)}
+                  aria-describedby={validationMessage ? "scan-url-error" : undefined}
                   className="h-12 rounded-none border-border bg-card pl-11 pr-4 font-mono text-sm placeholder:font-sans placeholder:text-muted-foreground/65 focus-visible:ring-primary"
                 />
               </div>
-              <Button type="submit" disabled={scanning || !url.trim()} className="h-12 min-w-[158px] rounded-none bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_24%,transparent)] transition-all hover:bg-primary/90 hover:shadow-[0_0_32px_color-mix(in_oklab,var(--primary)_38%,transparent)]">
+              <Button type="submit" disabled={scanning} className="h-12 min-w-[158px] rounded-none bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_24%,transparent)] transition-all hover:bg-primary/90 hover:shadow-[0_0_32px_color-mix(in_oklab,var(--primary)_38%,transparent)]">
                 {scanning ? <RefreshCw size={16} className="animate-spin" /> : <ScanLine size={17} />}
                 {scanning ? "Scanning" : "Deep scan"}
                 {!scanning && <ArrowUpRight size={15} className="ml-1" />}
               </Button>
             </div>
+            {validationMessage && (
+              <p id="scan-url-error" role="alert" className="mt-2 text-xs text-danger">
+                {validationMessage}
+              </p>
+            )}
             {scanning && (
               <div role="status" aria-live="polite" className="mt-4 flex min-h-12 items-center gap-3 border border-primary/25 bg-primary/5 px-4 py-3 font-mono text-xs text-primary">
                 <Terminal size={15} className="shrink-0" />
@@ -264,6 +298,24 @@ function Dashboard() {
           </form>
         </section>
 
+        {!hasScanned && !scanning && (
+          <section
+            id="threat-feed"
+            aria-label="Scan status"
+            className="flex min-h-64 flex-col items-center justify-center border-b border-border py-12 text-center"
+          >
+            <span className="mb-4 grid size-12 place-items-center border border-primary/25 bg-primary/5 text-primary">
+              <ShieldCheck size={22} strokeWidth={1.6} />
+            </span>
+            <h2 className="text-base font-semibold">Ready to investigate</h2>
+            <p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+              Your trust analysis and global threat intelligence will appear here after the scan.
+            </p>
+          </section>
+        )}
+
+        {hasScanned && (
+          <>
         <section aria-label="Scan overview" className="grid grid-cols-2 border-b border-border py-5 sm:grid-cols-4">
           <Metric label="Domains monitored" value="24,891" delta="+8.2%" trend="up" icon={<Globe2 size={16} />} />
           <Metric label="Threats blocked" value="1,284" delta="+12.4%" trend="up" icon={<ShieldAlert size={16} />} />
@@ -303,7 +355,7 @@ function Dashboard() {
             <div>
               <div className="mb-1 flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.12em] text-primary">
                 <span className="relative flex size-2"><span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-35" /><span className="relative inline-flex size-2 rounded-full bg-success" /></span>
-                Global network · live
+                Global network · sample
               </div>
               <h2 className="text-lg font-semibold">Threat intelligence feed</h2>
             </div>
@@ -326,10 +378,12 @@ function Dashboard() {
             </div>
           </div>
         </section>
+          </>
+        )}
 
         <footer className="mt-10 flex flex-col gap-2 border-t border-border pt-4 text-[10px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <span>TRUSTGUARD AI <span className="mx-1.5">·</span> THREAT INTELLIGENCE NETWORK</span>
-          <span className="flex items-center gap-1.5"><Signal size={12} className="text-success" /> All systems operational <span className="mx-1">·</span> Data refreshes continuously</span>
+          <span className="flex items-center gap-1.5"><Signal size={12} className="text-success" /> Sample threat intelligence <span className="mx-1">·</span> Live scanning not connected</span>
         </footer>
       </main>
 
