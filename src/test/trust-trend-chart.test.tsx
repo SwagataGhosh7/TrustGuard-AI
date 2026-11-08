@@ -14,6 +14,7 @@ describe("TrustScoreTrendChart Component", () => {
   it("renders without ready-made domain profiles", () => {
     render(<TrustScoreTrendChart />);
     expect(screen.getByText("Continuous Security Maintenance Verified")).toBeInTheDocument();
+    expect(screen.getByText("Current URL/Domain:")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /github\.com \(Clean\)/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /emudhra-gateway/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /legacy-portal/i })).not.toBeInTheDocument();

@@ -677,6 +677,12 @@ export function TrustScoreTrendChart({
 
       {/* Historical Milestones Breakdown */}
       <div className="border-t border-amber-500/20 pt-4">
+        <div className="mb-3 border border-amber-500/30 bg-black/50 px-3 py-2 font-code text-xs">
+          <span className="text-zinc-400">Current URL/Domain: </span>
+          <span className="text-amber-200 break-all">
+            {currentScan?.targetUrl || activeProfile.domain}
+          </span>
+        </div>
         <div className="text-xs font-semibold text-zinc-200 mb-3 flex items-center justify-between">
           <span className="flex items-center gap-1.5 font-pixel text-xs text-amber-300">
             <Clock size={13} className="text-amber-400" />
