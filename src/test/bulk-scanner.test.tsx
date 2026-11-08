@@ -170,6 +170,9 @@ describe("BulkUrlScanner Component", () => {
 
   it("executes bulk scan and displays comparison table", async () => {
     render(<BulkUrlScanner />);
+    fireEvent.change(screen.getByLabelText(/Target Hostnames/i), {
+      target: { value: "github.com\nemudhra-auth-gateway-test.net" },
+    });
     const scanBtn = screen.getByRole("button", { name: /Run Concurrent Bulk Scan/i });
     fireEvent.click(scanBtn);
 
@@ -185,6 +188,9 @@ describe("BulkUrlScanner Component", () => {
   it("triggers inspect callback when inspect button clicked", async () => {
     const handleInspect = vi.fn();
     render(<BulkUrlScanner onInspectDomain={handleInspect} />);
+    fireEvent.change(screen.getByLabelText(/Target Hostnames/i), {
+      target: { value: "github.com\nemudhra-auth-gateway-test.net" },
+    });
     const scanBtn = screen.getByRole("button", { name: /Run Concurrent Bulk Scan/i });
     fireEvent.click(scanBtn);
 
@@ -202,6 +208,9 @@ describe("BulkUrlScanner Component", () => {
 
   it("filters results by risk level", async () => {
     render(<BulkUrlScanner />);
+    fireEvent.change(screen.getByLabelText(/Target Hostnames/i), {
+      target: { value: "github.com\nemudhra-auth-gateway-test.net" },
+    });
     const scanBtn = screen.getByRole("button", { name: /Run Concurrent Bulk Scan/i });
     fireEvent.click(scanBtn);
 

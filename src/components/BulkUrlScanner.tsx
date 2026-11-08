@@ -32,9 +32,7 @@ interface BulkUrlScannerProps {
 }
 
 export function BulkUrlScanner({ onInspectDomain }: BulkUrlScannerProps) {
-  const [inputUrls, setInputUrls] = useState(
-    "github.com\ncloudflare.com\nemudhra-auth-gateway-test.net\nsecure-login-hdfc-update.com",
-  );
+  const [inputUrls, setInputUrls] = useState("");
   const [isRunning, setIsRunning] = useState(false);
   const [results, setResults] = useState<BulkScanItem[]>([]);
   const [filterRisk, setFilterRisk] = useState<string>("all");
