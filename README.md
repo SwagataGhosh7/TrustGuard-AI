@@ -17,6 +17,8 @@ The application has two primary entry points:
 
 ![Phishing awareness: pause, scan, verify](./public/phishing-awareness-meme.svg)
 
+![Phishing money scam awareness](./public/phishing-money-meme.webp)
+
 ## How phishing links work
 
 Phishing is a social-engineering attack: the message creates urgency, imitates
@@ -36,6 +38,30 @@ The usual chain looks like this:
    attacker, who may reuse them immediately.
 5. **Consequence:** the victim can lose account access, money, identity data,
    or control of other accounts through password reuse.
+
+### How a phishing link becomes a money scam
+
+The link itself is usually only the first step. The financial loss happens
+when the fake page or an impersonating support agent uses the captured
+information to move money:
+
+1. **Credential harvest:** the victim enters an email address, password, card
+   number, PIN, or one-time passcode into the cloned page.
+2. **Account takeover:** the scammer signs in to the real banking, shopping,
+   wallet, or email account. Email access can let them reset other passwords.
+3. **Payment manipulation:** the attacker may add a new beneficiary, change a
+   saved payout account, place fraudulent orders, or transfer funds.
+4. **Social-engineering escalation:** the scammer calls or messages while
+   pretending to be bank support and asks for an OTP, remote-access session,
+   “refund” approval, or a second transfer.
+5. **Loss and delay:** transfers can be difficult to reverse, and the victim
+   may not notice until alerts, statements, or account lockouts appear.
+
+Common warning signs include an unexpected urgent message, a domain with
+extra words or misspellings, a shortened URL, a login page reached from a
+message instead of a bookmark, requests for OTPs or recovery codes, and
+instructions to move money to a “safe” account. Banks and legitimate support
+teams do not need your password or one-time code.
 
 ### How TrustGuard AI helps
 
@@ -57,6 +83,11 @@ browser protections, password managers, MFA, or human judgment. A valid
 certificate only proves encrypted transport; it does not prove that the
 website is honest. Never submit credentials to a suspicious page, even when
 an audit returns a low risk score.
+
+If you already clicked a suspicious link, close the page, contact the
+organization through its official website or phone number, change reused
+passwords from a clean device, revoke unknown sessions, enable MFA, and
+contact your bank immediately if payment details or transfers were involved.
 
 ## Highlights
 
