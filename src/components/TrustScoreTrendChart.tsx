@@ -406,14 +406,11 @@ export function TrustScoreTrendChart({
     };
   }, [currentScan]);
 
-  // Live scan data takes precedence over the baseline profile.
-  const activeProfile = useMemo<DomainHistoryProfile>(() => {
-    if (liveScanProfile) return liveScanProfile;
-    return PRESET_HISTORIES["github.com"] as DomainHistoryProfile;
-  }, [liveScanProfile]);
+  const activeProfile = liveScanProfile;
 
   // Statistics calculations
   const stats = useMemo(() => {
+    if (!activeProfile) return null;
     const scores = activeProfile.data.map((d) => d.trustScore);
     const latestScore = scores[scores.length - 1] ?? 0;
     const lowestScore = Math.min(...scores);
@@ -459,14 +456,14 @@ export function TrustScoreTrendChart({
           <div className="flex items-baseline gap-1.5 mt-1">
             <span
               className={`text-2xl font-bold font-code tabular-nums ${
-                stats.latestScore >= 75
+                (stats?.latestScore ?? 0) >= 75
                   ? "text-emerald-400"
-                  : stats.latestScore >= 50
+                  : (stats?.latestScore ?? 0) >= 50
                     ? "text-amber-400"
                     : "text-red-400"
               }`}
             >
-              {stats.latestScore}
+              {stats?.latestScore ?? "—"}
             </span>
             <span className="text-xs text-zinc-400 font-code">/ 100</span>
           </div>
@@ -477,14 +474,14 @@ export function TrustScoreTrendChart({
           <div className="flex items-baseline gap-1.5 mt-1">
             <span
               className={`text-2xl font-bold font-code tabular-nums ${
-                stats.lowestScore >= 75
+                (stats?.lowestScore ?? 0) >= 75
                   ? "text-amber-200"
-                  : stats.lowestScore >= 50
+                  : (stats?.lowestScore ?? 0) >= 50
                     ? "text-amber-400"
                     : "text-red-400"
               }`}
             >
-              {stats.lowestScore}
+              {stats?.lowestScore ?? "—"}
             </span>
             <span className="text-xs text-zinc-400 font-code">/ 100</span>
           </div>
@@ -494,7 +491,7 @@ export function TrustScoreTrendChart({
           <div className="text-[10px] uppercase font-pixel text-zinc-400">Historical Average</div>
           <div className="flex items-baseline gap-1.5 mt-1">
             <span className="text-2xl font-bold font-code tabular-nums text-amber-200">
-              {stats.averageScore}
+              {stats?.averageScore ?? "—"}
             </span>
             <span className="text-xs text-zinc-400 font-code">pts</span>
           </div>
@@ -507,20 +504,20 @@ export function TrustScoreTrendChart({
           <div className="flex items-baseline gap-1.5 mt-1">
             <span
               className={`text-2xl font-bold font-code tabular-nums ${
-                stats.totalLapses > 0 ? "text-red-400" : "text-emerald-400"
+                stats && stats.totalLapses > 0 ? "text-red-400" : "text-zinc-500"
               }`}
             >
-              {stats.totalLapses}
+              {stats?.totalLapses ?? "—"}
             </span>
             <span className="text-xs text-zinc-400 font-code">
-              {stats.totalLapses === 1 ? "incident" : "incidents"}
+              {stats?.totalLapses === 1 ? "incident" : stats ? "incidents" : "awaiting scan"}
             </span>
           </div>
         </div>
       </div>
 
       {/* Security Maintenance Lapse Alert Banner */}
-      {stats.hasCriticalLapse ? (
+      {stats?.hasCriticalLapse ? (
         <div className="border border-red-500/50 bg-red-950/30 p-4 flex items-start gap-3">
           <ShieldAlert size={18} className="text-red-400 shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs">
@@ -537,7 +534,7 @@ export function TrustScoreTrendChart({
             </p>
           </div>
         </div>
-      ) : (
+      ) : stats ? (
         <div className="border border-emerald-500/40 bg-emerald-950/30 p-4 flex items-start gap-3">
           <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs">
@@ -551,9 +548,29 @@ export function TrustScoreTrendChart({
             </p>
           </div>
         </div>
+      ) : (
+        <div className="border border-amber-500/40 bg-amber-950/20 p-4 flex items-start gap-3">
+          <History size={18} className="text-amber-400 shrink-0" />
+          <div className="space-y-1 text-xs">
+            <div className="font-pixel text-[11px] text-amber-300">
+              Awaiting Valid Target
+            </div>
+            <p className="text-zinc-300 font-display leading-relaxed">
+              Enter a valid domain or URL in Module 1 to generate trust surveillance metrics.
+            </p>
+          </div>
+        </div>
       )}
 
+      <div className="border border-amber-500/30 bg-black/50 px-3 py-2 font-code text-xs">
+        <span className="text-zinc-400">Current URL/Domain: </span>
+        <span className="text-amber-200 break-all">
+          {currentScan?.targetUrl || "Awaiting valid target"}
+        </span>
+      </div>
+
       {/* Recharts Line Chart Container */}
+      {activeProfile && (
       <div className="h-72 w-full pt-2">
         <ResponsiveContainer width="100%" height="100%" minWidth={100} minHeight={260}>
           <LineChart
@@ -674,15 +691,10 @@ export function TrustScoreTrendChart({
           </LineChart>
         </ResponsiveContainer>
       </div>
+      )}
 
       {/* Historical Milestones Breakdown */}
-      <div className="border-t border-amber-500/20 pt-4">
-        <div className="mb-3 border border-amber-500/30 bg-black/50 px-3 py-2 font-code text-xs">
-          <span className="text-zinc-400">Current URL/Domain: </span>
-          <span className="text-amber-200 break-all">
-            {currentScan?.targetUrl || activeProfile.domain}
-          </span>
-        </div>
+      {activeProfile && <div className="border-t border-amber-500/20 pt-4">
         <div className="text-xs font-semibold text-zinc-200 mb-3 flex items-center justify-between">
           <span className="flex items-center gap-1.5 font-pixel text-xs text-amber-300">
             <Clock size={13} className="text-amber-400" />
@@ -739,7 +751,7 @@ export function TrustScoreTrendChart({
             </div>
           ))}
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

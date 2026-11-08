@@ -11,10 +11,11 @@ describe("TrustScoreTrendChart Component", () => {
     expect(screen.getByText("Security Lapses Logged")).toBeInTheDocument();
   });
 
-  it("renders without ready-made domain profiles", () => {
+  it("waits for a valid target before showing trust metrics", () => {
     render(<TrustScoreTrendChart />);
-    expect(screen.getByText("Continuous Security Maintenance Verified")).toBeInTheDocument();
+    expect(screen.getByText("Awaiting Valid Target")).toBeInTheDocument();
     expect(screen.getByText("Current URL/Domain:")).toBeInTheDocument();
+    expect(screen.getByText("awaiting scan")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /github\.com \(Clean\)/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /emudhra-gateway/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /legacy-portal/i })).not.toBeInTheDocument();
