@@ -19,7 +19,6 @@ import {
   Share2,
   ShieldAlert,
   ShieldCheck,
-  Sparkles,
   Terminal,
   Users,
   Zap,
@@ -619,16 +618,16 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               </div>
             </div>
 
-            {/* Gemini 3.8 Flash AI Synthesis Card */}
+            {/* TrustGuard AI Forensic Synthesis Card */}
             <div className="border-2 border-[#2dd4bf]/40 bg-[#0c1017] p-6 relative overflow-hidden shadow-2xl">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
                   <span className="grid size-9 place-items-center border border-[#2dd4bf]/40 bg-[#2dd4bf]/10 text-[#2dd4bf] shrink-0">
-                    <Sparkles size={18} />
+                    <CyberEye className="size-5" />
                   </span>
                   <div>
                     <div className="font-pixel text-[10px] font-bold uppercase tracking-[0.12em] text-[#2dd4bf]">
-                      Gemini 3.8 Flash Forensic Synthesis
+                      TrustGuard AI Forensic Synthesis
                     </div>
                     <h3 className="font-display text-lg font-bold text-[#f8fafc] mt-0.5">
                       {scanResult.aiAnalysis.primaryVector}
