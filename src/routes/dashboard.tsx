@@ -245,7 +245,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
                   TRUSTGUARD
                 </span>
                 <span className="font-pixel text-[9px] px-1 py-0.2 bg-[#a3e635] text-[#080b10] font-bold uppercase tracking-tight">
-                  PROBE v2.4
+                  PROBE v1.0
                 </span>
               </div>
             </div>
@@ -258,7 +258,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               onClick={() => navigateTo("dashboard")}
               className="hover:text-[#a3e635] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
             >
-              Dashboard
+              Analyze
             </button>
             <button
               type="button"
@@ -379,7 +379,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               onClick={() => navigateTo("dashboard")}
               className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#a3e635]"
             >
-              Dashboard
+              Analyze
             </button>
             <button
               type="button"
@@ -460,7 +460,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             <div className="flex items-center gap-3">
               <span className="font-pixel text-[10px] text-[#a3e635] flex items-center gap-1.5 bg-[#a3e635]/10 px-2 py-0.5 border border-[#a3e635]/30">
                 <span className="size-1.5 rounded-full bg-[#a3e635] animate-ping" />
-                SENSOR_READY
+                ENTER A URL
               </span>
             </div>
           </div>
@@ -1065,7 +1065,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             <PixelAlien className="size-4 text-[#a3e635]" />
             <span className="font-bold text-[#f8fafc]">TrustGuard AI</span>
             <span>·</span>
-            <span className="text-[#ff6b35]">MLH x Hacktoberfest Threat Intelligence Network</span>
+            <span className="text-[#ff6b35]">Preventive Threat Intelligence Network</span>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
             <span>eMudhra Weak Key Audit Active</span>
