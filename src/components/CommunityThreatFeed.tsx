@@ -18,6 +18,7 @@ import type { CommunityThreatReport } from "@/server/threat-store";
 
 interface CommunityThreatFeedProps {
   onInspectDomain?: (domain: string) => void;
+  canParticipate?: boolean;
 }
 
 const COMMON_TAGS = [
@@ -29,7 +30,10 @@ const COMMON_TAGS = [
   { id: "critical", label: "Critical Only" },
 ];
 
-export function CommunityThreatFeed({ onInspectDomain }: CommunityThreatFeedProps) {
+export function CommunityThreatFeed({
+  onInspectDomain,
+  canParticipate = false,
+}: CommunityThreatFeedProps) {
   const [threats, setThreats] = useState<CommunityThreatReport[]>([]);
   const [activeTag, setActiveTag] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -209,14 +213,20 @@ export function CommunityThreatFeed({ onInspectDomain }: CommunityThreatFeedProp
             Refresh
           </Button>
 
-          <Button
-            size="sm"
-            onClick={() => setModalOpen(true)}
-            className="rounded-none bg-primary text-primary-foreground h-8 text-xs font-semibold hover:bg-primary/90"
-          >
-            <Plus size={13} className="mr-1.5" />
-            Submit Threat
-          </Button>
+          {canParticipate ? (
+            <Button
+              size="sm"
+              onClick={() => setModalOpen(true)}
+              className="rounded-none bg-primary text-primary-foreground h-8 text-xs font-semibold hover:bg-primary/90"
+            >
+              <Plus size={13} className="mr-1.5" />
+              Submit Threat
+            </Button>
+          ) : (
+            <span className="flex h-8 items-center gap-1.5 border border-border px-3 text-xs text-muted-foreground" title="Sign-in is not available until Firebase is connected">
+              Sign-in required to participate
+            </span>
+          )}
         </div>
       </div>
 
@@ -419,22 +429,32 @@ export function CommunityThreatFeed({ onInspectDomain }: CommunityThreatFeedProp
 
                 {/* Upvote Button */}
                 <div className="flex md:justify-end items-center">
-                  <button
-                    type="button"
-                    onClick={() => handleUpvote(threat.id)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-semibold border transition-all ${
-                      hasVoted
-                        ? "border-primary bg-primary text-primary-foreground shadow-[0_0_12px_rgba(45,212,191,0.25)]"
-                        : "border-border bg-card hover:bg-secondary text-foreground hover:border-primary/50"
-                    }`}
-                    title={hasVoted ? "Click to remove upvote" : "Upvote this threat report"}
-                  >
-                    <ThumbsUp
-                      size={12}
-                      className={hasVoted ? "text-primary-foreground" : "text-primary"}
-                    />
-                    <span className="tabular-nums">{threat.votes}</span>
-                  </button>
+                  {canParticipate ? (
+                    <button
+                      type="button"
+                      onClick={() => handleUpvote(threat.id)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-semibold border transition-all ${
+                        hasVoted
+                          ? "border-primary bg-primary text-primary-foreground shadow-[0_0_12px_rgba(45,212,191,0.25)]"
+                          : "border-border bg-card hover:bg-secondary text-foreground hover:border-primary/50"
+                      }`}
+                      title={hasVoted ? "Click to remove upvote" : "Upvote this threat report"}
+                    >
+                      <ThumbsUp
+                        size={12}
+                        className={hasVoted ? "text-primary-foreground" : "text-primary"}
+                      />
+                      <span className="tabular-nums">{threat.votes}</span>
+                    </button>
+                  ) : (
+                    <span
+                      className="flex items-center gap-1.5 border border-border px-3 py-1.5 text-xs font-mono text-muted-foreground"
+                      title="Sign-in is not available until Firebase is connected"
+                    >
+                      <ThumbsUp size={12} />
+                      <span className="tabular-nums">{threat.votes}</span>
+                    </span>
+                  )}
                 </div>
               </div>
             );
