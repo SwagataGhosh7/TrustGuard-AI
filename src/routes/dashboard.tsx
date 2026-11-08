@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   AlertTriangle,
@@ -53,6 +53,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const { user, canAccessCommunityIntelligence, signIn, signOut } = useAuth();
   const [urlInput, setUrlInput] = useState("");
 
@@ -61,6 +62,14 @@ export default function Dashboard() {
       await signIn();
     } catch (err: unknown) {
       console.warn("Sign-in dismissed or failed:", err);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } finally {
+      navigate({ to: "/" });
     }
   };
   const [isScanning, setIsScanning] = useState(false);
@@ -157,14 +166,11 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
       {/* 1-Row, 3-Zone Top Bar Contract */}
       <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-8 px-5 sm:px-8 lg:px-12">
-          {/* Zone 1: Single text element wordmark */}
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+          {/* Zone 1: Brand wordmark link to welcome page */}
+          <Link
+            to="/"
             className="flex items-center gap-2.5 text-base font-semibold tracking-tight text-foreground whitespace-nowrap shrink-0 hover:text-primary transition-colors"
+            title="Return to Welcome Portal"
           >
             <span className="grid size-8 place-items-center border border-primary/30 bg-primary/10 text-primary">
               <ShieldCheck size={18} strokeWidth={2} />
@@ -172,7 +178,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             <span>
               TrustGuard <span className="text-primary font-normal">AI</span>
             </span>
-          </a>
+          </Link>
 
           {/* Zone 2: 4 Clean single-line text navigation links */}
           <nav className="hidden md:flex items-center gap-7 text-xs font-medium text-muted-foreground">
@@ -231,19 +237,23 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
           {/* Zone 3: Actions & Auth Status */}
           <div className="flex items-center gap-2.5 shrink-0">
             {user ? (
-              <div className="flex items-center gap-2 border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-mono">
-                <span className="size-2 rounded-full bg-success animate-pulse" />
-                <span className="truncate max-w-[110px] text-primary font-semibold">
-                  {user.displayName || user.email?.split("@")[0] || "Analyst"}
-                </span>
-                <button
-                  type="button"
-                  onClick={signOut}
-                  className="text-muted-foreground hover:text-danger ml-1"
-                  title="Sign Out"
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-mono">
+                  <span className="size-2 rounded-full bg-success animate-pulse" />
+                  <span className="truncate max-w-[120px] text-primary font-semibold">
+                    {user.displayName || user.email?.split("@")[0] || "Analyst"}
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="h-8 px-2.5 rounded-none border-border bg-card hover:bg-destructive/15 hover:border-destructive/50 text-muted-foreground hover:text-destructive text-xs font-mono cursor-pointer transition-colors"
+                  title="Sign out and return to welcome home page"
                 >
-                  <LogOut size={13} />
-                </button>
+                  <LogOut size={12} className="mr-1.5" />
+                  Sign Out
+                </Button>
               </div>
             ) : (
               <div className="flex items-center gap-1.5">
@@ -254,9 +264,19 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
                   variant="outline"
                   size="sm"
                   onClick={handleSignIn}
-                  className="h-8 px-2.5 rounded-none border-primary/50 text-primary text-xs font-mono hover:bg-primary/10"
+                  className="h-8 px-2.5 rounded-none border-primary/50 text-primary text-xs font-mono hover:bg-primary/10 cursor-pointer"
                 >
                   Sign In
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate({ to: "/" })}
+                  className="h-8 px-2 rounded-none text-muted-foreground hover:text-foreground text-xs font-mono cursor-pointer"
+                  title="Return to Welcome Home"
+                >
+                  <LogOut size={12} className="mr-1" />
+                  Home
                 </Button>
               </div>
             )}
@@ -325,6 +345,27 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             >
               Certificate Audit
             </button>
+            <div className="pt-2 border-t border-border flex items-center justify-between">
+              {user ? (
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="flex items-center gap-1.5 py-1 text-sm text-destructive hover:underline cursor-pointer"
+                >
+                  <LogOut size={14} />
+                  <span>Sign Out to Welcome Home</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => navigate({ to: "/" })}
+                  className="flex items-center gap-1.5 py-1 text-sm text-muted-foreground hover:text-foreground cursor-pointer"
+                >
+                  <LogOut size={14} />
+                  <span>Exit to Welcome Home</span>
+                </button>
+              )}
+            </div>
           </div>
         )}
       </header>
