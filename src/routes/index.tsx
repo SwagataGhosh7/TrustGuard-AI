@@ -4,9 +4,11 @@ import {
   ArrowRight,
   Check,
   Globe2,
+  Instagram,
   KeyRound,
   Lock,
   LogOut,
+  Mail,
   Radio,
   Server,
   Shield,
@@ -451,15 +453,25 @@ export default function WelcomePage() {
             </div>
           </div>
 
-          {/* Terminal Bottom Status Bar */}
-          <div className="bg-[#141b24] border-t-2 border-[#243346] px-4 py-2 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#64748b] gap-2">
-            <div className="flex items-center gap-3">
-              <span className="text-[#a3e635]">● SOCKET READY</span>
-              <span>FIREBASE PROJECT: {user ? "CONNECTED" : "STANDBY"}</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <span>SECURITY LEVEL: MAXIMUM</span>
-              <span className="text-[#ff6b35]">HACKTOBERFEST 2026</span>
+          <div className="bg-[#141b24] border-t-2 border-[#243346] px-4 py-3 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#64748b] gap-3">
+            <span className="text-[#f8fafc] uppercase tracking-wider">Contact us:</span>
+            <div className="flex items-center gap-2">
+              <a
+                href="mailto:swagataghosh538@gmail.com"
+                className="inline-flex items-center gap-1.5 border border-[#2dd4bf]/60 px-3 py-1.5 text-[#2dd4bf] transition-colors hover:bg-[#2dd4bf]/10"
+              >
+                <Mail size={14} />
+                Email
+              </a>
+              <a
+                href="https://www.instagram.com/trustguard.ai?utm_source=qr&exln=MTMyZWtrdjd2YXh6cA=="
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 border border-[#ff6b35]/60 px-3 py-1.5 text-[#ff6b35] transition-colors hover:bg-[#ff6b35]/10"
+              >
+                <Instagram size={14} />
+                Instagram
+              </a>
             </div>
           </div>
         </div>
