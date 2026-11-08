@@ -32,7 +32,7 @@ const COMMON_TAGS = [
 
 export function CommunityThreatFeed({
   onInspectDomain,
-  canParticipate = false,
+  canParticipate = true,
 }: CommunityThreatFeedProps) {
   const [threats, setThreats] = useState<CommunityThreatReport[]>([]);
   const [activeTag, setActiveTag] = useState<string>("all");
@@ -223,7 +223,10 @@ export function CommunityThreatFeed({
               Submit Threat
             </Button>
           ) : (
-            <span className="flex h-8 items-center gap-1.5 border border-border px-3 text-xs text-muted-foreground" title="Sign-in is not available until Firebase is connected">
+            <span
+              className="flex h-8 items-center gap-1.5 border border-border px-3 text-xs text-muted-foreground"
+              title="Sign-in is not available until Firebase is connected"
+            >
               Sign-in required to participate
             </span>
           )}

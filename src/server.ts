@@ -147,7 +147,9 @@ export default {
 
     if (url.pathname === "/api/threats" && request.method === "POST") {
       return new Response(
-        JSON.stringify({ error: "Community participation is unavailable until sign-in is configured." }),
+        JSON.stringify({
+          error: "Community participation is unavailable until sign-in is configured.",
+        }),
         { status: 403, headers: { "content-type": "application/json" } },
       );
       /* Participation remains server-denied until Firebase identity tokens are verified here.
@@ -176,7 +178,9 @@ export default {
 
     if (url.pathname === "/api/threats/vote" && request.method === "POST") {
       return new Response(
-        JSON.stringify({ error: "Community participation is unavailable until sign-in is configured." }),
+        JSON.stringify({
+          error: "Community participation is unavailable until sign-in is configured.",
+        }),
         { status: 403, headers: { "content-type": "application/json" } },
       );
       /* Participation remains server-denied until Firebase identity tokens are verified here.

@@ -4,6 +4,6 @@
 - [x] Update migration status and report the missing live scanning capability.
 - [x] Show analysis results only after a valid mock scan completes.
 - [x] Verify the full three-second scan flow and responsive layout.
-- [ ] Add a vibrant welcome page with sign-in placeholder and guest dashboard access.
-- [ ] Keep guest community intelligence read-only in the UI and server endpoints.
-- [ ] Validate welcome, dashboard, and guest participation boundaries.
+- [x] Add a vibrant welcome page with sign-in placeholder and guest dashboard access.
+- [x] Keep guest community intelligence read-only in the UI and server endpoints.
+- [x] Validate welcome, dashboard, and guest participation boundaries.
