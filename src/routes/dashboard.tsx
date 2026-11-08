@@ -523,34 +523,6 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
                 </Button>
               </div>
 
-              {/* Quick Test Domain Buttons with Retro Sticker Styling */}
-              <div className="flex flex-wrap items-center gap-2 text-xs">
-                <span className="font-pixel text-[10px] text-[#94a3b8] uppercase tracking-wide">
-                  Quick Audit Targets:
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleScan("github.com")}
-                  className="font-code text-xs px-2.5 py-1 border border-[#334155] bg-[#121924] text-[#a3e635] hover:border-[#a3e635] transition-all cursor-pointer"
-                >
-                  github.com (Clean ECDSA)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleScan("emudhra-auth-gateway-test.net")}
-                  className="font-code text-xs px-2.5 py-1 border border-[#334155] bg-[#121924] text-[#fef08a] hover:border-[#fef08a] transition-all cursor-pointer"
-                >
-                  emudhra-auth-gateway-test.net (Weak Key Check)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleScan("secure-login-hdfc-update.com")}
-                  className="font-code text-xs px-2.5 py-1 border border-[#334155] bg-[#121924] text-[#ff4d4d] hover:border-[#ff4d4d] transition-all cursor-pointer"
-                >
-                  secure-login-hdfc-update.com (Phishing Clone)
-                </button>
-              </div>
-
               {errorMessage && (
                 <div className="flex items-center gap-2 border-2 border-[#ff4d4d] bg-[#ff4d4d]/10 px-4 py-2.5 font-code text-xs text-[#ff4d4d]">
                   <AlertTriangle size={15} className="shrink-0" />

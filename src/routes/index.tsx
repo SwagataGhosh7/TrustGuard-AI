@@ -430,7 +430,6 @@ export default function WelcomePage() {
                   <Terminal size={12} />
                   LIVE_PROBE_TELEMETRY.log
                 </span>
-                <span>STATUS: 200 OK</span>
               </div>
               <div className="space-y-1 text-[#94a3b8] text-[11px]">
                 <p>
