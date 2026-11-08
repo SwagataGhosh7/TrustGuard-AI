@@ -523,21 +523,27 @@ export async function generatePngReport(scan: FullScanResult): Promise<string> {
     ey += 22;
   }
 
+  // Issuer block inside the card boundary
+  ctx.fillStyle = "#0c1017";
+  ctx.fillRect(65, 650, canvas.width - 130, 28);
+  ctx.strokeStyle = "#ff6b35";
+  ctx.strokeRect(65, 650, canvas.width - 130, 28);
+  ctx.fillStyle = "#ff6b35";
+  ctx.font = "bold 12px 'Courier New', monospace";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    "Issued by : Swagata Ghosh | Founder : TrustGuard AI",
+    canvas.width / 2,
+    669,
+  );
+
   // Footer Watermark
   ctx.fillStyle = "#64748b";
   ctx.font = "bold 11px 'Courier New', monospace";
-  ctx.textAlign = "center";
   ctx.fillText(
     "TRUSTGUARD AI · VERIFIED AUDIT PROBE",
     canvas.width / 2,
-    canvas.height - 30,
-  );
-  ctx.fillStyle = "#ff6b35";
-  ctx.font = "bold 12px 'Courier New', monospace";
-  ctx.fillText(
-    "Digital Sign: Swagata Ghosh, Founder ; TrustGuard AI",
-    canvas.width / 2,
-    canvas.height - 12,
+    canvas.height - 14,
   );
 
   const dataUrl = canvas.toDataURL("image/png");
