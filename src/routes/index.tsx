@@ -98,11 +98,23 @@ export default function WelcomePage() {
     setAuthError(null);
     setIsSigningIn(true);
     try {
-      await signIn();
-      navigate({ to: "/dashboard" });
+      const loggedUser = await signIn();
+      if (loggedUser) {
+        navigate({ to: "/dashboard" });
+      }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Authentication cancelled or failed";
-      setAuthError(msg);
+      const code = err && typeof err === "object" && "code" in err ? String(err.code) : "";
+      if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
+        return;
+      }
+      if (code === "auth/popup-blocked") {
+        setAuthError(
+          "The Google sign-in popup was blocked by your browser. Please allow popups or continue as Guest.",
+        );
+      } else {
+        const msg = err instanceof Error ? err.message : "Authentication cancelled or failed";
+        setAuthError(msg);
+      }
     } finally {
       setIsSigningIn(false);
     }

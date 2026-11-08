@@ -28,12 +28,35 @@ if (typeof window !== "undefined") {
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
 
-export async function loginWithGoogle(): Promise<User> {
+// Debounce mutex to prevent concurrent popup requests causing auth/cancelled-popup-request
+let activeAuthPromise: Promise<User | null> | null = null;
+
+export async function loginWithGoogle(): Promise<User | null> {
   if (!auth) {
     throw new Error("Firebase Auth is only available in browser environment");
   }
-  const result = await signInWithPopup(auth, googleProvider);
-  return result.user;
+
+  if (activeAuthPromise) {
+    return activeAuthPromise;
+  }
+
+  activeAuthPromise = (async () => {
+    try {
+      const result = await signInWithPopup(auth!, googleProvider);
+      return result.user;
+    } catch (err: unknown) {
+      const code = err && typeof err === "object" && "code" in err ? String(err.code) : "";
+      // Handle user dismissing popup or cancelled duplicate gracefully without logging fatal error
+      if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
+        return null;
+      }
+      throw err;
+    } finally {
+      activeAuthPromise = null;
+    }
+  })();
+
+  return activeAuthPromise;
 }
 
 export async function logoutUser(): Promise<void> {

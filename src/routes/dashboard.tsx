@@ -55,6 +55,14 @@ export const Route = createFileRoute("/dashboard")({
 export default function Dashboard() {
   const { user, canAccessCommunityIntelligence, signIn, signOut } = useAuth();
   const [urlInput, setUrlInput] = useState("");
+
+  const handleSignIn = async () => {
+    try {
+      await signIn();
+    } catch (err: unknown) {
+      console.warn("Sign-in dismissed or failed:", err);
+    }
+  };
   const [isScanning, setIsScanning] = useState(false);
   const [scanStep, setScanStep] = useState(0);
   const [scanResult, setScanResult] = useState<FullScanResult | null>(null);
@@ -245,7 +253,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={signIn}
+                  onClick={handleSignIn}
                   className="h-8 px-2.5 rounded-none border-primary/50 text-primary text-xs font-mono hover:bg-primary/10"
                 >
                   Sign In
@@ -884,7 +892,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
 
                 <div className="flex flex-wrap items-center gap-3 pt-3">
                   <Button
-                    onClick={signIn}
+                    onClick={handleSignIn}
                     className="h-10 px-6 rounded-none bg-[#ff6b35] hover:bg-[#ff8a00] text-black font-arcade text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(255,107,53,0.35)] cursor-pointer"
                   >
                     ⚡ SIGN IN WITH GOOGLE TO UNLOCK

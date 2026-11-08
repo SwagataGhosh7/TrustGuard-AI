@@ -63,17 +63,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const signIn = async () => {
+  const signIn = async (): Promise<User | null> => {
     try {
       const loggedUser = await loginWithGoogle();
-      setUser(loggedUser);
-      setIsGuest(false);
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("trustguard_guest_mode");
+      if (loggedUser) {
+        setUser(loggedUser);
+        setIsGuest(false);
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("trustguard_guest_mode");
+        }
       }
       return loggedUser;
-    } catch (err) {
-      console.error("Sign-in failed:", err);
+    } catch (err: unknown) {
+      const code = err && typeof err === "object" && "code" in err ? String(err.code) : "";
+      if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
+        return null;
+      }
+      console.warn("Sign-in issue:", err);
       throw err;
     }
   };
