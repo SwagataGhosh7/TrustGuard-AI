@@ -66,24 +66,27 @@ function PixelAlien({
   );
 }
 
-// Crisp pixel art Shield (8-bit)
-function PixelShield({
+function CyberEye({
   className = "size-8",
-  color = "#a3e635",
 }: {
   className?: string;
-  color?: string;
 }) {
   return (
     <svg
-      viewBox="0 0 12 14"
+      viewBox="0 0 64 64"
       className={className}
-      fill={color}
       xmlns="http://www.w3.org/2000/svg"
-      shapeRendering="crispEdges"
     >
-      <path d="M1 0h10v2H1zM0 2h12v4H0zM1 6h10v2H1zM2 8h8v2H2zM3 10h6v2H3zM4 12h4v1H4zM5 13h2v1H5z" />
-      <path d="M5 3h2v6H5zM3 5h6v2H3z" fill="#080b10" />
+      <circle cx="32" cy="32" r="24" fill="none" stroke="#2dd4bf" strokeWidth="3" />
+      <path
+        d="M13 32c7-13 31-13 38 0-7 13-31 13-38 0Z"
+        fill="none"
+        stroke="#a3e635"
+        strokeWidth="4"
+      />
+      <circle cx="32" cy="32" r="8" fill="#ff6b35" />
+      <circle cx="32" cy="32" r="3" fill="#080b10" />
+      <path d="M32 8v7M32 49v7M8 32h7M49 32h7" stroke="#2dd4bf" strokeWidth="2" />
     </svg>
   );
 }
@@ -149,7 +152,7 @@ export default function WelcomePage() {
           {/* Brand Logo & Pixel Shield */}
           <div className="flex items-center gap-3">
             <div className="relative p-1.5 bg-[#121924] border-2 border-[#a3e635] shadow-[0_0_12px_rgba(163,230,53,0.35)]">
-              <PixelShield className="size-6 text-[#a3e635]" />
+              <CyberEye className="size-7" />
             </div>
             <div>
               <div className="flex items-center gap-2">

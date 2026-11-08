@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 72">
-  <rect width="64" height="72" rx="8" fill="#121924"/>
-  <path fill="#a3e635" d="M5 0h54v10H5zM0 10h64v21H0zM5 31h54v10H5zM11 41h42v10H11zM16 51h32v10H16zM21 61h22v6H21zM27 67h10v5H27z"/>
-  <path fill="#080b10" d="M27 16h10v31H27zM16 26h32v10H16z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="TrustGuard AI Cyber Eye">
+  <rect width="64" height="64" rx="12" fill="#080b10"/>
+  <circle cx="32" cy="32" r="24" fill="none" stroke="#2dd4bf" stroke-width="3"/>
+  <path d="M13 32c7-13 31-13 38 0-7 13-31 13-38 0Z" fill="none" stroke="#a3e635" stroke-width="4"/>
+  <circle cx="32" cy="32" r="8" fill="#ff6b35"/>
+  <circle cx="32" cy="32" r="3" fill="#080b10"/>
+  <path d="M32 8v7M32 49v7M8 32h7M49 32h7" stroke="#2dd4bf" stroke-width="2"/>
 </svg>
