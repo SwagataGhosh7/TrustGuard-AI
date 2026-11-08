@@ -220,24 +220,29 @@ ${contentSnippet}
   };
 
   return (
-    <section id="extension-integration" className="border border-border bg-card p-6 space-y-6">
+    <section
+      id="extension-integration"
+      className="border border-amber-500/30 bg-[#0e0907]/90 p-6 space-y-6 shadow-[0_0_20px_rgba(245,158,11,0.05)] relative overflow-hidden"
+    >
+      <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
+
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-border pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-amber-500/20 pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="grid size-8 place-items-center border border-primary/30 bg-primary/10 text-primary">
+            <span className="grid size-8 place-items-center border border-amber-500/40 bg-amber-500/10 text-amber-400">
               <Puzzle size={16} />
             </span>
             <div>
-              <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-primary">
-                Client-Side Deployment · Passive Telemetry
+              <div className="text-[9px] font-arcade uppercase tracking-widest text-amber-400">
+                Client Deployment · Passive Sentinel
               </div>
-              <h2 className="text-lg font-semibold text-foreground">
+              <h2 className="text-base sm:text-lg font-pixel text-amber-200 tracking-wide mt-1">
                 Browser Extension Integration Guide
               </h2>
             </div>
           </div>
-          <p className="text-xs text-muted-foreground mt-2 max-w-2xl leading-relaxed">
+          <p className="text-xs font-display text-zinc-300 mt-2 max-w-2xl leading-relaxed">
             Integrate the TrustGuard AI scanning engine into your custom Chromium (Chrome, Brave,
             Edge) or Firefox extension. Passively inspect top-level website navigations in the
             background, render live threat badges in the browser toolbar, and alert employees before
@@ -251,7 +256,7 @@ ${contentSnippet}
             variant="outline"
             size="sm"
             onClick={handleDownloadExtensionPack}
-            className="rounded-none border-border h-8 text-xs font-mono"
+            className="rounded-none border-amber-500/40 bg-black/60 h-8 text-xs font-code text-amber-300 hover:bg-amber-500 hover:text-black transition-colors"
           >
             <Download size={13} className="mr-1.5" />
             Download Source Bundle
@@ -261,39 +266,39 @@ ${contentSnippet}
 
       {/* 3 Architecture Step Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="border border-border bg-secondary/30 p-4 space-y-2">
+        <div className="border border-amber-500/30 bg-black/50 p-4 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs font-semibold text-primary">STEP 01</span>
-            <Chrome size={15} className="text-muted-foreground" />
+            <span className="font-arcade text-[10px] text-amber-400">STEP 01</span>
+            <Chrome size={15} className="text-zinc-400" />
           </div>
-          <h4 className="text-xs font-semibold text-foreground">Manifest V3 Configuration</h4>
-          <p className="text-[11px] text-muted-foreground leading-relaxed">
-            Declare <code className="font-mono text-foreground/90">webNavigation</code> and{" "}
-            <code className="font-mono text-foreground/90">storage</code> permissions with host
+          <h4 className="text-xs font-pixel text-amber-200">Manifest V3 Configuration</h4>
+          <p className="text-[11px] font-display text-zinc-300 leading-relaxed">
+            Declare <code className="font-code text-amber-300">webNavigation</code> and{" "}
+            <code className="font-code text-amber-300">storage</code> permissions with host
             allowlists targeting this instance's{" "}
-            <code className="font-mono text-foreground/90">/api/scan</code> endpoint.
+            <code className="font-code text-amber-300">/api/scan</code> endpoint.
           </p>
         </div>
 
-        <div className="border border-border bg-secondary/30 p-4 space-y-2">
+        <div className="border border-amber-500/30 bg-black/50 p-4 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs font-semibold text-primary">STEP 02</span>
-            <Lock size={15} className="text-muted-foreground" />
+            <span className="font-arcade text-[10px] text-amber-400">STEP 02</span>
+            <Lock size={15} className="text-zinc-400" />
           </div>
-          <h4 className="text-xs font-semibold text-foreground">Passive Socket Interception</h4>
-          <p className="text-[11px] text-muted-foreground leading-relaxed">
+          <h4 className="text-xs font-pixel text-amber-200">Passive Socket Interception</h4>
+          <p className="text-[11px] font-display text-zinc-300 leading-relaxed">
             The background service worker intercepts navigations, retrieves cryptographic scores
             from the server, caches results for 15 minutes, and updates the icon badge.
           </p>
         </div>
 
-        <div className="border border-border bg-secondary/30 p-4 space-y-2">
+        <div className="border border-amber-500/30 bg-black/50 p-4 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs font-semibold text-primary">STEP 03</span>
-            <ShieldAlert size={15} className="text-muted-foreground" />
+            <span className="font-arcade text-[10px] text-amber-400">STEP 03</span>
+            <ShieldAlert size={15} className="text-zinc-400" />
           </div>
-          <h4 className="text-xs font-semibold text-foreground">Credential Sentinel Alerts</h4>
-          <p className="text-[11px] text-muted-foreground leading-relaxed">
+          <h4 className="text-xs font-pixel text-amber-200">Credential Sentinel Alerts</h4>
+          <p className="text-[11px] font-display text-zinc-300 leading-relaxed">
             Dispatches native desktop notifications and flags HTML password inputs when visiting
             domains with eMudhra weak CA keys or threat scores &gt; 60.
           </p>
@@ -301,12 +306,10 @@ ${contentSnippet}
       </div>
 
       {/* API Endpoint Configuration Banner */}
-      <div className="border border-border bg-secondary/20 p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+      <div className="border border-amber-500/30 bg-black/50 p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[11px] uppercase text-muted-foreground">
-            Active Endpoint:
-          </span>
-          <code className="font-mono text-xs text-primary font-semibold select-all break-all">
+          <span className="font-pixel text-[10px] uppercase text-zinc-400">Active Endpoint:</span>
+          <code className="font-code text-xs text-amber-300 font-semibold select-all break-all">
             {customApiHost}/api/scan
           </code>
         </div>
@@ -316,11 +319,11 @@ ${contentSnippet}
             variant="outline"
             size="sm"
             onClick={handleCopyApiUrl}
-            className="rounded-none border-border h-7 text-[11px] font-mono"
+            className="rounded-none border-amber-500/40 bg-black/60 h-7 text-[11px] font-code text-amber-300 hover:bg-amber-500 hover:text-black"
           >
             {copiedApiUrl ? (
               <>
-                <Check size={12} className="mr-1 text-success" />
+                <Check size={12} className="mr-1 text-emerald-400" />
                 Copied Endpoint!
               </>
             ) : (
@@ -334,43 +337,16 @@ ${contentSnippet}
       </div>
 
       {/* Code Snippet Viewer */}
-      <div className="border border-border bg-card space-y-0 overflow-hidden">
-        {/* Tabs Bar */}
-        <div className="flex items-center justify-between border-b border-border bg-secondary/40 px-3">
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveTab("background")}
-              className={`px-3 py-2 text-xs font-mono transition-colors border-b-2 -mb-[1px] ${
-                activeTab === "background"
-                  ? "border-primary text-foreground font-semibold bg-card"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              background.js (Service Worker)
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("manifest")}
-              className={`px-3 py-2 text-xs font-mono transition-colors border-b-2 -mb-[1px] ${
-                activeTab === "manifest"
-                  ? "border-primary text-foreground font-semibold bg-card"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              manifest.json (MV3)
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("content")}
-              className={`px-3 py-2 text-xs font-mono transition-colors border-b-2 -mb-[1px] ${
-                activeTab === "content"
-                  ? "border-primary text-foreground font-semibold bg-card"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              content.js (Form Guard)
-            </button>
+      <div className="border border-amber-500/30 bg-black/80 space-y-0 overflow-hidden shadow-inner">
+        {/* Terminal Title Bar */}
+        <div className="flex items-center justify-between border-b border-amber-500/20 bg-amber-950/20 px-3 py-1.5">
+          <div className="flex items-center gap-1.5">
+            <span className="size-2.5 rounded-full bg-red-500/80 inline-block" />
+            <span className="size-2.5 rounded-full bg-amber-500/80 inline-block" />
+            <span className="size-2.5 rounded-full bg-emerald-500/80 inline-block" />
+            <span className="font-code text-[11px] text-zinc-400 ml-2">
+              extension-source-manifest
+            </span>
           </div>
 
           <Button
@@ -378,11 +354,11 @@ ${contentSnippet}
             variant="ghost"
             size="sm"
             onClick={handleCopyCode}
-            className="h-7 text-xs font-mono text-muted-foreground hover:text-foreground"
+            className="h-6 text-xs font-code text-amber-300 hover:text-white hover:bg-amber-500/20 px-2"
           >
             {copiedCode ? (
               <>
-                <Check size={12} className="mr-1 text-success" />
+                <Check size={12} className="mr-1 text-emerald-400" />
                 Copied Snippet!
               </>
             ) : (
@@ -394,46 +370,82 @@ ${contentSnippet}
           </Button>
         </div>
 
+        {/* Tabs Bar */}
+        <div className="flex items-center border-b border-amber-500/20 bg-black/60 px-2">
+          <button
+            type="button"
+            onClick={() => setActiveTab("background")}
+            className={`px-3 py-2 text-xs font-code transition-colors border-b-2 -mb-[1px] ${
+              activeTab === "background"
+                ? "border-amber-400 text-amber-200 font-semibold bg-amber-500/10"
+                : "border-transparent text-zinc-400 hover:text-amber-300"
+            }`}
+          >
+            background.js (Worker)
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("manifest")}
+            className={`px-3 py-2 text-xs font-code transition-colors border-b-2 -mb-[1px] ${
+              activeTab === "manifest"
+                ? "border-amber-400 text-amber-200 font-semibold bg-amber-500/10"
+                : "border-transparent text-zinc-400 hover:text-amber-300"
+            }`}
+          >
+            manifest.json (MV3)
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("content")}
+            className={`px-3 py-2 text-xs font-code transition-colors border-b-2 -mb-[1px] ${
+              activeTab === "content"
+                ? "border-amber-400 text-amber-200 font-semibold bg-amber-500/10"
+                : "border-transparent text-zinc-400 hover:text-amber-300"
+            }`}
+          >
+            content.js (Form Guard)
+          </button>
+        </div>
+
         {/* Code Block Container */}
-        <div className="p-4 bg-black/60 overflow-x-auto max-h-[380px]">
-          <pre className="font-mono text-xs text-foreground/90 leading-relaxed select-all">
+        <div className="p-4 bg-black/90 overflow-x-auto max-h-[380px]">
+          <pre className="font-code text-xs text-amber-100/90 leading-relaxed select-all">
             <code>{getCodeContent()}</code>
           </pre>
         </div>
       </div>
 
       {/* Installation Walkthrough Guide */}
-      <div className="border border-border bg-secondary/20 p-5 space-y-3">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
-          <Terminal size={14} className="text-primary" />
+      <div className="border border-amber-500/30 bg-black/50 p-5 space-y-3">
+        <h4 className="text-xs font-pixel uppercase tracking-wider text-amber-200 flex items-center gap-2">
+          <Terminal size={14} className="text-amber-400" />
           How to Test in Chrome / Chromium (Under 2 Minutes)
         </h4>
-        <ol className="list-decimal list-inside space-y-1.5 text-xs text-muted-foreground leading-relaxed pl-1 font-mono">
+        <ol className="list-decimal list-inside space-y-1.5 text-xs text-zinc-300 leading-relaxed pl-1 font-code">
           <li>
             Create a local directory named{" "}
-            <code className="text-foreground">trustguard-extension/</code>.
+            <code className="text-amber-300">trustguard-extension/</code>.
           </li>
           <li>
-            Save the three files above (<code className="text-foreground">manifest.json</code>,{" "}
-            <code className="text-foreground">background.js</code>,{" "}
-            <code className="text-foreground">content.js</code>) into that directory.
+            Save the three files above (<code className="text-amber-300">manifest.json</code>,{" "}
+            <code className="text-amber-300">background.js</code>,{" "}
+            <code className="text-amber-300">content.js</code>) into that directory.
           </li>
           <li>
             Open Chrome or Edge and navigate to{" "}
-            <code className="text-primary">chrome://extensions/</code>.
+            <code className="text-amber-400 underline">chrome://extensions/</code>.
           </li>
           <li>
-            Enable the <strong className="text-foreground">"Developer mode"</strong> toggle in the
-            upper right corner.
+            Enable the <strong className="text-white font-semibold">"Developer mode"</strong> toggle
+            in the upper right corner.
           </li>
           <li>
-            Click <strong className="text-foreground">"Load unpacked"</strong> and select your{" "}
-            <code className="text-foreground">trustguard-extension/</code> folder.
+            Click <strong className="text-white font-semibold">"Load unpacked"</strong> and select
+            your <code className="text-amber-300">trustguard-extension/</code> folder.
           </li>
           <li>
-            Browse to any site (e.g. <code className="text-foreground">github.com</code> or test
-            domains). The extension icon in your toolbar will automatically display the live Trust
-            Score badge.
+            Browse to any site (e.g. <code className="text-amber-300">github.com</code>). The
+            extension icon in your toolbar will automatically display the live Trust Score badge.
           </li>
         </ol>
       </div>

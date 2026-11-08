@@ -437,18 +437,20 @@ export function TrustScoreTrendChart({
   }, [activeProfile]);
 
   return (
-    <div className="border border-border bg-card p-5 sm:p-6 space-y-6">
+    <div className="border border-amber-500/30 bg-[#0e0907]/90 p-5 sm:p-6 space-y-6 shadow-[0_0_20px_rgba(245,158,11,0.05)] relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
+
       {/* Header & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-border pb-5">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-amber-500/20 pb-5">
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.12em] text-primary mb-1">
+          <div className="flex items-center gap-2 text-[9px] font-arcade uppercase tracking-widest text-amber-400 mb-1">
             <History size={13} />
             Cryptographic Maintenance Surveillance
           </div>
-          <h3 className="text-lg font-semibold text-foreground tracking-tight flex items-center gap-2.5">
+          <h3 className="text-base sm:text-lg font-pixel text-amber-200 tracking-wide flex items-center gap-2.5">
             Certificate Trust Score Fluctuations Over Time
           </h3>
-          <p className="text-xs text-muted-foreground mt-0.5 max-w-2xl leading-relaxed">
+          <p className="text-xs font-display text-zinc-300 mt-1 max-w-2xl leading-relaxed">
             Identifies sudden dips in cryptographic trust, expired certificate near-misses, eMudhra
             weak key renewals, and transport configuration regressions.
           </p>
@@ -460,10 +462,10 @@ export function TrustScoreTrendChart({
             <button
               type="button"
               onClick={() => setSelectedDomainKey("current")}
-              className={`text-xs px-3 py-1.5 font-mono border transition-colors ${
+              className={`text-xs px-3 py-1.5 font-code border transition-colors ${
                 selectedDomainKey === "current"
-                  ? "border-primary bg-primary text-primary-foreground font-semibold"
-                  : "border-border bg-secondary/50 text-muted-foreground hover:text-foreground"
+                  ? "border-amber-400 bg-amber-500 text-black font-semibold shadow-[0_0_10px_rgba(245,158,11,0.3)]"
+                  : "border-amber-500/40 bg-black/60 text-zinc-300 hover:text-amber-300 hover:border-amber-400"
               }`}
             >
               Current: {liveScanProfile.domain}
@@ -473,108 +475,102 @@ export function TrustScoreTrendChart({
           <button
             type="button"
             onClick={() => setSelectedDomainKey("github.com")}
-            className={`text-xs px-3 py-1.5 font-mono border transition-colors ${
+            className={`text-xs px-3 py-1.5 font-code border transition-colors ${
               selectedDomainKey === "github.com"
-                ? "border-primary bg-primary text-primary-foreground font-semibold"
-                : "border-border bg-secondary/50 text-muted-foreground hover:text-foreground"
+                ? "border-amber-400 bg-amber-500 text-black font-semibold shadow-[0_0_10px_rgba(245,158,11,0.3)]"
+                : "border-amber-500/40 bg-black/60 text-zinc-300 hover:text-amber-300 hover:border-amber-400"
             }`}
           >
-            github.com (Clean Baseline)
+            github.com (Clean)
           </button>
 
           <button
             type="button"
             onClick={() => setSelectedDomainKey("emudhra-auth-gateway-test.net")}
-            className={`text-xs px-3 py-1.5 font-mono border transition-colors ${
+            className={`text-xs px-3 py-1.5 font-code border transition-colors ${
               selectedDomainKey === "emudhra-auth-gateway-test.net"
-                ? "border-warning bg-warning/20 text-warning font-semibold"
-                : "border-border bg-secondary/50 text-muted-foreground hover:text-foreground"
+                ? "border-amber-400 bg-amber-500 text-black font-semibold shadow-[0_0_10px_rgba(245,158,11,0.3)]"
+                : "border-amber-500/40 bg-black/60 text-amber-300 hover:border-amber-400"
             }`}
           >
-            emudhra-gateway (Weak Key Lapse)
+            emudhra-gateway (Weak Key)
           </button>
 
           <button
             type="button"
             onClick={() => setSelectedDomainKey("legacy-portal-example.org")}
-            className={`text-xs px-3 py-1.5 font-mono border transition-colors ${
+            className={`text-xs px-3 py-1.5 font-code border transition-colors ${
               selectedDomainKey === "legacy-portal-example.org"
-                ? "border-danger bg-danger/20 text-danger font-semibold"
-                : "border-border bg-secondary/50 text-muted-foreground hover:text-foreground"
+                ? "border-red-500/60 bg-red-950/60 text-red-300 font-semibold"
+                : "border-amber-500/40 bg-black/60 text-zinc-300 hover:text-red-300 hover:border-red-500/50"
             }`}
           >
-            legacy-portal (Expired Cert Dip)
+            legacy-portal (Expired)
           </button>
         </div>
       </div>
 
       {/* KPI Stats Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 border border-border bg-secondary/20 p-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 border border-amber-500/30 bg-black/50 p-4">
         <div>
-          <div className="text-[10px] uppercase font-mono text-muted-foreground">
-            Current Trust Index
-          </div>
+          <div className="text-[10px] uppercase font-pixel text-zinc-400">Current Trust Index</div>
           <div className="flex items-baseline gap-1.5 mt-1">
             <span
-              className={`text-2xl font-semibold font-mono tabular-nums ${
+              className={`text-2xl font-bold font-code tabular-nums ${
                 stats.latestScore >= 75
-                  ? "text-success"
+                  ? "text-emerald-400"
                   : stats.latestScore >= 50
-                    ? "text-warning"
-                    : "text-danger"
+                    ? "text-amber-400"
+                    : "text-red-400"
               }`}
             >
               {stats.latestScore}
             </span>
-            <span className="text-xs text-muted-foreground font-mono">/ 100</span>
+            <span className="text-xs text-zinc-400 font-code">/ 100</span>
           </div>
         </div>
 
         <div>
-          <div className="text-[10px] uppercase font-mono text-muted-foreground">
-            Lowest Recorded Dip
-          </div>
+          <div className="text-[10px] uppercase font-pixel text-zinc-400">Lowest Recorded Dip</div>
           <div className="flex items-baseline gap-1.5 mt-1">
             <span
-              className={`text-2xl font-semibold font-mono tabular-nums ${
+              className={`text-2xl font-bold font-code tabular-nums ${
                 stats.lowestScore >= 75
-                  ? "text-foreground"
+                  ? "text-amber-200"
                   : stats.lowestScore >= 50
-                    ? "text-warning"
-                    : "text-danger"
+                    ? "text-amber-400"
+                    : "text-red-400"
               }`}
             >
               {stats.lowestScore}
             </span>
-            <span className="text-xs text-muted-foreground font-mono">/ 100</span>
+            <span className="text-xs text-zinc-400 font-code">/ 100</span>
           </div>
         </div>
 
         <div>
-          <div className="text-[10px] uppercase font-mono text-muted-foreground">
-            Historical Average
-          </div>
+          <div className="text-[10px] uppercase font-pixel text-zinc-400">Historical Average</div>
           <div className="flex items-baseline gap-1.5 mt-1">
-            <span className="text-2xl font-semibold font-mono tabular-nums text-foreground">
+            <span className="text-2xl font-bold font-code tabular-nums text-amber-200">
               {stats.averageScore}
             </span>
-            <span className="text-xs text-muted-foreground font-mono">pts</span>
+            <span className="text-xs text-zinc-400 font-code">pts</span>
           </div>
         </div>
 
         <div>
-          <div className="text-[10px] uppercase font-mono text-muted-foreground">
+          <div className="text-[10px] uppercase font-pixel text-zinc-400">
             Security Lapses Logged
           </div>
           <div className="flex items-baseline gap-1.5 mt-1">
             <span
-              className={`text-2xl font-semibold font-mono tabular-nums ${
-                stats.totalLapses > 0 ? "text-danger" : "text-success"
+              className={`text-2xl font-bold font-code tabular-nums ${
+                stats.totalLapses > 0 ? "text-red-400" : "text-emerald-400"
               }`}
             >
               {stats.totalLapses}
             </span>
-            <span className="text-xs text-muted-foreground font-mono">
+            <span className="text-xs text-zinc-400 font-code">
               {stats.totalLapses === 1 ? "incident" : "incidents"}
             </span>
           </div>
@@ -583,16 +579,16 @@ export function TrustScoreTrendChart({
 
       {/* Security Maintenance Lapse Alert Banner */}
       {stats.hasCriticalLapse ? (
-        <div className="border border-danger/40 bg-danger/5 p-4 flex items-start gap-3">
-          <ShieldAlert size={18} className="text-danger shrink-0 mt-0.5" />
+        <div className="border border-red-500/50 bg-red-950/30 p-4 flex items-start gap-3">
+          <ShieldAlert size={18} className="text-red-400 shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs">
-            <div className="font-semibold text-danger flex items-center gap-2">
+            <div className="font-pixel text-[11px] text-red-300 flex items-center gap-2">
               <span>Security Maintenance Lapse Detected</span>
-              <span className="text-[10px] font-mono uppercase bg-danger/10 px-2 py-0.5 border border-danger/30">
+              <span className="text-[9px] font-arcade uppercase bg-red-950/80 px-2 py-0.5 border border-red-500/50 text-red-400">
                 Action Required
               </span>
             </div>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-zinc-300 font-display leading-relaxed">
               Historical telemetry identifies significant dips below the safe cryptographic
               threshold (score &lt; 40). Indicators include weak key entropy (such as the eMudhra CA
               key generation flaw), unlogged certificates, or lapsed expiration windows.
@@ -600,13 +596,13 @@ export function TrustScoreTrendChart({
           </div>
         </div>
       ) : (
-        <div className="border border-success/30 bg-success/5 p-4 flex items-start gap-3">
-          <CheckCircle2 size={18} className="text-success shrink-0 mt-0.5" />
+        <div className="border border-emerald-500/40 bg-emerald-950/30 p-4 flex items-start gap-3">
+          <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs">
-            <div className="font-semibold text-success">
+            <div className="font-pixel text-[11px] text-emerald-300">
               Continuous Security Maintenance Verified
             </div>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-zinc-300 font-display leading-relaxed">
               Domain maintains consistent cryptographic posture above the baseline threshold (75+),
               exhibiting steady certificate renewal cycles without expired windows or cipher suite
               regressions.
@@ -738,10 +734,10 @@ export function TrustScoreTrendChart({
       </div>
 
       {/* Historical Milestones Breakdown */}
-      <div className="border-t border-border pt-4">
-        <div className="text-xs font-semibold text-foreground mb-3 flex items-center justify-between">
-          <span className="flex items-center gap-1.5">
-            <Clock size={13} className="text-primary" />
+      <div className="border-t border-amber-500/20 pt-4">
+        <div className="text-xs font-semibold text-zinc-200 mb-3 flex items-center justify-between">
+          <span className="flex items-center gap-1.5 font-pixel text-xs text-amber-300">
+            <Clock size={13} className="text-amber-400" />
             Audit Milestones & Maintenance Log ({activeProfile.domain})
           </span>
           {onSelectAuditDomain && activeProfile.domain !== currentScan?.domain && (
@@ -749,9 +745,9 @@ export function TrustScoreTrendChart({
               variant="outline"
               size="sm"
               onClick={() => onSelectAuditDomain(activeProfile.domain)}
-              className="h-7 text-[11px] font-mono border-border rounded-none"
+              className="h-7 text-[10px] font-code border-amber-500/40 bg-black/60 text-amber-300 hover:bg-amber-500 hover:text-black rounded-none"
             >
-              Scan This Domain
+              Scan Domain
             </Button>
           )}
         </div>
@@ -762,31 +758,33 @@ export function TrustScoreTrendChart({
               key={idx}
               className={`p-3 border text-xs space-y-1.5 ${
                 item.status === "critical"
-                  ? "border-danger/40 bg-danger/5"
+                  ? "border-red-500/40 bg-red-950/20"
                   : item.status === "warning"
-                    ? "border-warning/30 bg-warning/5"
-                    : "border-border bg-secondary/30"
+                    ? "border-amber-500/40 bg-amber-950/20"
+                    : "border-amber-500/20 bg-black/60"
               }`}
             >
-              <div className="flex items-center justify-between font-mono">
-                <span className="text-[10px] text-muted-foreground">{item.date}</span>
+              <div className="flex items-center justify-between font-code">
+                <span className="text-[10px] text-zinc-400">{item.date}</span>
                 <span
-                  className={`text-[10px] font-semibold uppercase px-1.5 py-0.2 ${
+                  className={`text-[9px] font-pixel uppercase px-1.5 py-0.5 border ${
                     item.status === "critical"
-                      ? "text-danger bg-danger/10"
+                      ? "text-red-400 border-red-500/40 bg-red-950/60"
                       : item.status === "warning"
-                        ? "text-warning bg-warning/10"
-                        : "text-success bg-success/10"
+                        ? "text-amber-400 border-amber-500/40 bg-amber-950/60"
+                        : "text-emerald-400 border-emerald-500/40 bg-emerald-950/60"
                   }`}
                 >
                   {item.trustScore} pts
                 </span>
               </div>
-              <div className="font-semibold text-foreground">{item.event}</div>
+              <div className="font-pixel text-[11px] text-amber-200">{item.event}</div>
               {item.lapseDetail ? (
-                <p className="text-[11px] text-danger/90 leading-tight">⚠️ {item.lapseDetail}</p>
+                <p className="text-[11px] font-code text-red-300 leading-tight">
+                  ⚠️ {item.lapseDetail}
+                </p>
               ) : (
-                <p className="text-[11px] text-muted-foreground leading-tight">
+                <p className="text-[11px] font-code text-zinc-400 leading-tight">
                   {item.keyAlgorithm} · {item.issuer?.split(" ")[0]}
                 </p>
               )}
@@ -814,50 +812,49 @@ function CustomChartTooltip({ active, payload }: CustomTooltipProps) {
   const isWarning = data.status === "warning";
 
   return (
-    <div className="border border-border bg-card/95 backdrop-blur-md p-3.5 shadow-xl text-xs space-y-2 min-w-[220px]">
-      <div className="flex items-center justify-between border-b border-border pb-1.5 font-mono">
-        <span className="text-muted-foreground">{data.date}</span>
+    <div className="border border-amber-500/50 bg-[#0e0907]/95 backdrop-blur-md p-3.5 shadow-2xl text-xs space-y-2 min-w-[220px]">
+      <div className="flex items-center justify-between border-b border-amber-500/20 pb-1.5 font-code">
+        <span className="text-zinc-400">{data.date}</span>
         <span
-          className={`font-semibold uppercase text-[10px] px-1.5 py-0.5 ${
+          className={`font-pixel uppercase text-[9px] px-1.5 py-0.5 border ${
             isCritical
-              ? "bg-danger/20 text-danger border border-danger/40"
+              ? "bg-red-950/60 text-red-400 border-red-500/50"
               : isWarning
-                ? "bg-warning/20 text-warning border border-warning/40"
-                : "bg-success/20 text-success border border-success/40"
+                ? "bg-amber-950/60 text-amber-400 border-amber-500/50"
+                : "bg-emerald-950/60 text-emerald-400 border-emerald-500/50"
           }`}
         >
           {data.status}
         </span>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1 font-code">
         <div className="flex justify-between items-baseline">
-          <span className="text-muted-foreground">Trust Score:</span>
-          <span className="font-mono font-semibold text-sm text-foreground">
-            {data.trustScore}{" "}
-            <span className="text-[10px] font-normal text-muted-foreground">/ 100</span>
+          <span className="text-zinc-400">Trust Score:</span>
+          <span className="font-bold text-sm text-amber-200">
+            {data.trustScore} <span className="text-[10px] font-normal text-zinc-400">/ 100</span>
           </span>
         </div>
         <div className="flex justify-between items-baseline">
-          <span className="text-muted-foreground">Benchmark:</span>
-          <span className="font-mono text-muted-foreground text-xs">{data.benchmark} pts</span>
+          <span className="text-zinc-400">Benchmark:</span>
+          <span className="text-zinc-400 text-xs">{data.benchmark} pts</span>
         </div>
       </div>
 
-      <div className="border-t border-border pt-1.5 space-y-1">
-        <div className="font-medium text-foreground">{data.event}</div>
+      <div className="border-t border-amber-500/20 pt-1.5 space-y-1">
+        <div className="font-pixel text-[11px] text-amber-100">{data.event}</div>
         {data.keyAlgorithm && (
-          <div className="text-[11px] font-mono text-muted-foreground">
-            Algorithm: <span className="text-foreground">{data.keyAlgorithm}</span>
+          <div className="text-[11px] font-code text-zinc-400">
+            Algorithm: <span className="text-zinc-200">{data.keyAlgorithm}</span>
           </div>
         )}
         {data.issuer && (
-          <div className="text-[11px] font-mono text-muted-foreground truncate" title={data.issuer}>
-            CA: <span className="text-foreground">{data.issuer}</span>
+          <div className="text-[11px] font-code text-zinc-400 truncate" title={data.issuer}>
+            CA: <span className="text-zinc-200">{data.issuer}</span>
           </div>
         )}
         {data.lapseDetail && (
-          <div className="text-[11px] text-danger font-medium pt-0.5 leading-snug">
+          <div className="text-[11px] text-red-400 font-code pt-0.5 leading-snug">
             ⚠️ {data.lapseDetail}
           </div>
         )}

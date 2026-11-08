@@ -106,23 +106,21 @@ ${scanResult.aiAnalysis.summary}`;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="w-full max-w-xl border border-border bg-card p-6 shadow-2xl space-y-5 animate-in fade-in-0 zoom-in-95 duration-200">
+      <div className="w-full max-w-xl border-2 border-amber-500/60 bg-[#0e0907] p-6 shadow-[0_0_40px_rgba(245,158,11,0.25)] space-y-5 animate-in fade-in-0 zoom-in-95 duration-200">
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-border pb-4">
+        <div className="flex items-start justify-between border-b border-amber-500/20 pb-4">
           <div className="flex items-center gap-2.5">
-            <span className="grid size-8 place-items-center border border-primary/30 bg-primary/10 text-primary">
+            <span className="grid size-8 place-items-center border border-amber-500/40 bg-amber-500/10 text-amber-400">
               <Share2 size={16} />
             </span>
             <div>
-              <h3 className="text-base font-semibold text-foreground">
-                Download & Share Audit Report
-              </h3>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <h3 className="text-base font-pixel text-amber-200">Download & Share Audit Report</h3>
+              <p className="text-xs font-display text-zinc-400 mt-0.5">
                 Export forensic reports in PDF, PNG infographic format, or share directly.
               </p>
             </div>
@@ -132,53 +130,55 @@ ${scanResult.aiAnalysis.summary}`;
             size="icon"
             onClick={onClose}
             aria-label="Close modal"
-            className="size-8 -mr-2 -mt-2 text-muted-foreground hover:text-foreground"
+            className="size-8 -mr-2 -mt-2 text-zinc-400 hover:text-white"
           >
             <X size={16} />
           </Button>
         </div>
 
         {/* Report Preview Mini Card */}
-        <div className="border border-border bg-secondary/20 p-4 space-y-3">
+        <div className="border border-amber-500/30 bg-black/60 p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 font-mono text-sm font-semibold text-foreground">
-              <ShieldCheck size={16} className="text-primary" />
+            <div className="flex items-center gap-2 font-code text-sm font-semibold text-amber-100">
+              <ShieldCheck size={16} className="text-emerald-400" />
               <span>{scanResult.domain}</span>
             </div>
             <span
-              className={`text-[10px] font-semibold uppercase px-2 py-0.5 border ${riskBadgeColor}`}
+              className={`text-[9px] font-pixel uppercase px-2 py-0.5 border ${riskBadgeColor}`}
             >
               {scanResult.aiAnalysis.riskLevel} RISK ({scanResult.aiAnalysis.threatScore}/100)
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 text-xs font-mono text-muted-foreground border-y border-border py-2.5">
+          <div className="grid grid-cols-2 gap-3 text-xs font-code text-zinc-400 border-y border-amber-500/15 py-2.5">
             <div>
-              <span className="text-muted-foreground block text-[10px] uppercase">Issuer CA:</span>
+              <span className="text-zinc-500 block text-[9px] uppercase font-pixel">
+                Issuer CA:
+              </span>
               <span
-                className="text-foreground truncate block"
+                className="text-amber-200 truncate block mt-0.5"
                 title={scanResult.certificate.issuer.CN}
               >
                 {scanResult.certificate.issuer.CN || "Unknown"}
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px] uppercase">
+              <span className="text-zinc-500 block text-[9px] uppercase font-pixel">
                 eMudhra Audit:
               </span>
               <span
-                className={
+                className={`block mt-0.5 ${
                   scanResult.certificate.emudhraVulnerabilityCheck.isVulnerable
-                    ? "text-danger"
-                    : "text-success"
-                }
+                    ? "text-red-400 font-semibold"
+                    : "text-emerald-400 font-semibold"
+                }`}
               >
                 {scanResult.certificate.emudhraVulnerabilityCheck.keyGenerationStatus}
               </span>
             </div>
           </div>
 
-          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+          <p className="text-xs font-display text-zinc-300 leading-relaxed line-clamp-2">
             {scanResult.aiAnalysis.summary}
           </p>
         </div>
@@ -190,17 +190,17 @@ ${scanResult.aiAnalysis.summary}`;
             type="button"
             onClick={handleDownloadPdf}
             disabled={downloadingPdf}
-            className="flex items-start gap-3 p-3.5 border border-border bg-card hover:border-primary/60 hover:bg-secondary/40 transition-all text-left group"
+            className="flex items-start gap-3 p-3.5 border border-amber-500/30 bg-black/60 hover:border-amber-400 hover:bg-amber-500/10 transition-all text-left group"
           >
-            <span className="grid size-9 place-items-center border border-primary/30 bg-primary/10 text-primary shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+            <span className="grid size-9 place-items-center border border-amber-500/40 bg-amber-500/10 text-amber-400 shrink-0 group-hover:bg-amber-500 group-hover:text-black transition-colors">
               <FileText size={18} />
             </span>
             <div>
-              <div className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+              <div className="text-xs font-pixel text-amber-200 flex items-center gap-1.5">
                 <span>Download PDF Report</span>
-                <Download size={12} className="text-muted-foreground group-hover:text-primary" />
+                <Download size={12} className="text-zinc-400 group-hover:text-amber-400" />
               </div>
-              <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
+              <p className="text-[11px] font-display text-zinc-300 mt-1 leading-snug">
                 Official vector audit report with full cryptographic & security header sections.
               </p>
             </div>
@@ -211,17 +211,17 @@ ${scanResult.aiAnalysis.summary}`;
             type="button"
             onClick={handleDownloadPng}
             disabled={downloadingPng}
-            className="flex items-start gap-3 p-3.5 border border-border bg-card hover:border-primary/60 hover:bg-secondary/40 transition-all text-left group"
+            className="flex items-start gap-3 p-3.5 border border-amber-500/30 bg-black/60 hover:border-amber-400 hover:bg-amber-500/10 transition-all text-left group"
           >
-            <span className="grid size-9 place-items-center border border-primary/30 bg-primary/10 text-primary shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+            <span className="grid size-9 place-items-center border border-amber-500/40 bg-amber-500/10 text-amber-400 shrink-0 group-hover:bg-amber-500 group-hover:text-black transition-colors">
               <ImageIcon size={18} />
             </span>
             <div>
-              <div className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+              <div className="text-xs font-pixel text-amber-200 flex items-center gap-1.5">
                 <span>Download PNG Card</span>
-                <Download size={12} className="text-muted-foreground group-hover:text-primary" />
+                <Download size={12} className="text-zinc-400 group-hover:text-amber-400" />
               </div>
-              <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
+              <p className="text-[11px] font-display text-zinc-300 mt-1 leading-snug">
                 1200x760 high-resolution infographic card for Slack, tickets, and incident boards.
               </p>
             </div>
@@ -229,18 +229,18 @@ ${scanResult.aiAnalysis.summary}`;
         </div>
 
         {/* Copy / Quick Share Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-border">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-amber-500/20">
           <div className="flex items-center gap-2">
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={handleCopySummary}
-              className="rounded-none border-border h-8 text-xs font-mono"
+              className="rounded-none border-amber-500/40 bg-black/60 h-8 text-xs font-code text-amber-300 hover:bg-amber-500 hover:text-black"
             >
               {copiedSummary ? (
                 <>
-                  <Check size={13} className="mr-1.5 text-success" />
+                  <Check size={13} className="mr-1.5 text-emerald-400" />
                   Copied Summary!
                 </>
               ) : (
@@ -256,11 +256,11 @@ ${scanResult.aiAnalysis.summary}`;
               variant="outline"
               size="sm"
               onClick={handleShare}
-              className="rounded-none border-border h-8 text-xs font-mono"
+              className="rounded-none border-amber-500/40 bg-black/60 h-8 text-xs font-code text-amber-300 hover:bg-amber-500 hover:text-black"
             >
               {copiedLink ? (
                 <>
-                  <Check size={13} className="mr-1.5 text-success" />
+                  <Check size={13} className="mr-1.5 text-emerald-400" />
                   Link Copied!
                 </>
               ) : (
@@ -277,9 +277,9 @@ ${scanResult.aiAnalysis.summary}`;
             variant="ghost"
             size="sm"
             onClick={onClose}
-            className="h-8 text-xs text-muted-foreground hover:text-foreground"
+            className="h-8 text-xs font-code text-zinc-400 hover:text-white"
           >
-            Done
+            Close
           </Button>
         </div>
       </div>
