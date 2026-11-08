@@ -453,7 +453,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               <span className="size-2.5 rounded-full bg-[#fef08a]" />
               <span className="size-2.5 rounded-full bg-[#a3e635]" />
               <span className="font-mono text-xs text-[#94a3b8] ml-2">
-                trustguard@sensor:~# /bin/probe_target --tls --emudhra --ai-eval
+                TrustGuard AI: live server-side TLS handshakes
               </span>
             </div>
             <div className="flex items-center gap-3">
