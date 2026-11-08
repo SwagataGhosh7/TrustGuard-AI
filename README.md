@@ -70,6 +70,8 @@ teams do not need your password or one-time code.
 TrustGuard AI gives a user a place to investigate a suspicious destination
 **before entering credentials**. For an authorized target, it can:
 
+![How TrustGuard AI helps](./public/trustguard-how-it-helps.jpe)
+
 - inspect the TLS handshake and X.509 certificate identity;
 - compare hostname, certificate subject, SANs, issuer, validity, and key
   posture;
