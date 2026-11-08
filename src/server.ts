@@ -46,6 +46,7 @@ function isH3SwallowedErrorBody(body: string): boolean {
 
 import { executeFullScan } from "./server/scanner";
 import { addThreatReport, getAllThreats, voteThreatReport } from "./server/threat-store";
+import { isValidTargetUrl } from "./lib/scan";
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
@@ -60,11 +61,18 @@ export default {
     if (url.pathname === "/api/scan" && request.method === "POST") {
       try {
         const body = (await request.json()) as { targetUrl?: string };
-        if (!body.targetUrl || typeof body.targetUrl !== "string") {
-          return new Response(JSON.stringify({ error: "Missing or invalid targetUrl parameter" }), {
+        if (
+          !body.targetUrl ||
+          typeof body.targetUrl !== "string" ||
+          !isValidTargetUrl(body.targetUrl)
+        ) {
+          return new Response(
+            JSON.stringify({ error: "Please enter a valid URL or domain, such as example.com." }),
+            {
             status: 400,
             headers: { "content-type": "application/json" },
-          });
+            },
+          );
         }
         const result = await executeFullScan(body.targetUrl);
         return new Response(JSON.stringify(result), {

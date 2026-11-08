@@ -1,6 +1,7 @@
 import dns from "node:dns";
 import tls from "node:tls";
 import { GoogleGenAI, Type } from "@google/genai";
+import { isValidTargetUrl } from "../lib/scan";
 
 export interface CertificateAudit {
   subject: { CN?: string; O?: string; C?: string };
@@ -104,6 +105,10 @@ function getAiClient(): GoogleGenAI {
  * Validate and clean hostname to prevent SSRF against internal resources
  */
 export function sanitizeTargetHostname(input: string): string {
+  if (!isValidTargetUrl(input)) {
+    throw new Error("Please enter a valid URL or domain, such as example.com.");
+  }
+
   let raw = input.trim();
   if (raw.startsWith("http://") || raw.startsWith("https://")) {
     try {

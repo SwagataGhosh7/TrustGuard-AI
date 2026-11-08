@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizeTargetUrl, SCAN_DURATION_MS, SCAN_STEPS } from "@/lib/scan";
+import { isValidTargetUrl, normalizeTargetUrl, SCAN_DURATION_MS, SCAN_STEPS } from "@/lib/scan";
 
 describe("TrustGuard scan flow", () => {
   it("keeps the requested scan duration at three seconds", () => {
@@ -30,5 +30,12 @@ describe("TrustGuard scan flow", () => {
 
   it("rejects non-web protocols", () => {
     expect(normalizeTargetUrl("ftp://example.com")).toBeNull();
+  });
+
+  it("accepts domain-shaped targets and rejects plain words", () => {
+    expect(isValidTargetUrl("www.example.com")).toBe(true);
+    expect(isValidTargetUrl("https://example.com/login")).toBe(true);
+    expect(isValidTargetUrl("cat")).toBe(false);
+    expect(isValidTargetUrl("i am jack")).toBe(false);
   });
 });

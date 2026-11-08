@@ -33,6 +33,7 @@ import { TrustScoreTrendChart } from "@/components/TrustScoreTrendChart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/use-auth";
+import { isValidTargetUrl } from "@/lib/scan";
 import type { FullScanResult } from "@/server/scanner";
 
 // 8-bit Pixel Alien
@@ -143,8 +144,8 @@ export default function Dashboard() {
 
   async function handleScan(targetDomain?: string) {
     const rawTarget = (targetDomain || urlInput).trim();
-    if (!rawTarget) {
-      setErrorMessage("Please enter a valid website address or domain to analyze.");
+    if (!isValidTargetUrl(rawTarget)) {
+      setErrorMessage("Please enter a valid URL or domain, such as example.com.");
       return;
     }
 
