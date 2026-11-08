@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Phishing link awareness meme</title>
+  <desc id="desc">A suspicious message tricks a user, while TrustGuard AI inspects the link before it is trusted.</desc>
+  <rect width="1200" height="620" rx="24" fill="#080b10"/>
+  <rect x="28" y="28" width="552" height="564" rx="18" fill="#171923" stroke="#ff6b35" stroke-width="4"/>
+  <rect x="620" y="28" width="552" height="564" rx="18" fill="#111c22" stroke="#a3e635" stroke-width="4"/>
+  <text x="64" y="82" fill="#ff6b35" font-family="Arial,sans-serif" font-size="30" font-weight="700">THE SCAMMER</text>
+  <text x="656" y="82" fill="#a3e635" font-family="Arial,sans-serif" font-size="30" font-weight="700">THE TRUSTGUARD CHECK</text>
+  <rect x="76" y="124" width="456" height="210" rx="14" fill="#f8fafc"/>
+  <circle cx="124" cy="174" r="24" fill="#ff6b35"/>
+  <text x="165" y="182" fill="#1e293b" font-family="Arial,sans-serif" font-size="24" font-weight="700">Urgent Security Alert!</text>
+  <text x="104" y="230" fill="#334155" font-family="Arial,sans-serif" font-size="21">Your account is locked.</text>
+  <text x="104" y="264" fill="#334155" font-family="Arial,sans-serif" font-size="21">Verify now or lose access:</text>
+  <rect x="104" y="284" width="364" height="30" rx="5" fill="#fee2e2"/>
+  <text x="116" y="306" fill="#dc2626" font-family="monospace" font-size="16">secure-bank-login.example</text>
+  <path d="M302 370v100" stroke="#ff6b35" stroke-width="8"/>
+  <path d="m274 442 28 34 28-34" fill="none" stroke="#ff6b35" stroke-width="8"/>
+  <text x="102" y="520" fill="#fca5a5" font-family="Arial,sans-serif" font-size="24" font-weight="700">Click first. Think later.</text>
+  <circle cx="895" cy="194" r="82" fill="#080b10" stroke="#2dd4bf" stroke-width="6"/>
+  <path d="M830 194c25-44 105-44 130 0-25 44-105 44-130 0Z" fill="none" stroke="#a3e635" stroke-width="8"/>
+  <circle cx="895" cy="194" r="26" fill="#ff6b35"/>
+  <circle cx="895" cy="194" r="10" fill="#080b10"/>
+  <text x="670" y="336" fill="#cbd5e1" font-family="monospace" font-size="21">TLS / X.509  ........ inspect</text>
+  <text x="670" y="374" fill="#cbd5e1" font-family="monospace" font-size="21">DNS / HTTP .......... inspect</text>
+  <text x="670" y="412" fill="#cbd5e1" font-family="monospace" font-size="21">CT logs ............. inspect</text>
+  <text x="670" y="450" fill="#cbd5e1" font-family="monospace" font-size="21">Threat signals ...... explain</text>
+  <rect x="670" y="488" width="440" height="52" rx="8" fill="#a3e635"/>
+  <text x="890" y="522" text-anchor="middle" fill="#080b10" font-family="Arial,sans-serif" font-size="23" font-weight="700">PAUSE. SCAN. VERIFY.</text>
+</svg>

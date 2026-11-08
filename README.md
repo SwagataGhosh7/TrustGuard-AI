@@ -15,6 +15,49 @@ The application has two primary entry points:
 > Only scan domains you own or have permission to investigate. The scanner uses
 > public DNS/HTTPS/TLS interfaces; it is not an exploitation framework.
 
+![Phishing awareness: pause, scan, verify](./public/phishing-awareness-meme.svg)
+
+## How phishing links work
+
+Phishing is a social-engineering attack: the message creates urgency, imitates
+a trusted brand, and sends the victim to a lookalike website. The page may use
+a familiar logo and a convincing login form, but the attacker controls the
+domain and collects passwords, payment details, one-time codes, or recovery
+information.
+
+The usual chain looks like this:
+
+1. **Delivery:** a fake bank, delivery, workplace, or support message arrives
+   by email, SMS, social media, or chat.
+2. **Pressure:** the message claims an account is locked, a payment failed, or
+   an urgent verification is required.
+3. **Deception:** a shortened or lookalike URL leads to a cloned login page.
+4. **Capture:** submitted credentials or financial information are sent to the
+   attacker, who may reuse them immediately.
+5. **Consequence:** the victim can lose account access, money, identity data,
+   or control of other accounts through password reuse.
+
+### How TrustGuard AI helps
+
+TrustGuard AI gives a user a place to investigate a suspicious destination
+**before entering credentials**. For an authorized target, it can:
+
+- inspect the TLS handshake and X.509 certificate identity;
+- compare hostname, certificate subject, SANs, issuer, validity, and key
+  posture;
+- review HTTP security headers, redirects, and DNS records;
+- check Certificate Transparency data for certificate and issuance clues;
+- apply eMudhra weak-key diagnostics and threat heuristics;
+- produce a risk score, evidence summary, attack-vector classification, and
+  remediation guidance;
+- scan multiple candidate URLs without opening each one manually.
+
+TrustGuard AI does not guarantee that a site is safe and cannot replace
+browser protections, password managers, MFA, or human judgment. A valid
+certificate only proves encrypted transport; it does not prove that the
+website is honest. Never submit credentials to a suspicious page, even when
+an audit returns a low risk score.
+
 ## Highlights
 
 - **Live TLS audit** using a server-side Node.js TLS socket on port 443.
