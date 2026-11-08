@@ -34,3 +34,4 @@ use the editor.
 ## Project architecture
 
 - The root route is the migrated TrustGuard dashboard; keep scan interactions client-only unless a real scanning service is supplied, because the archive includes no scanning backend.
+- Keep `/` as the welcome/access choice and `/dashboard` as the guest-capable dashboard; deny community write endpoints until real Firebase identity verification is integrated, because client-only guest restrictions are not security boundaries.
