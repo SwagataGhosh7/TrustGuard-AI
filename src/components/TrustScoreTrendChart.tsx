@@ -456,58 +456,6 @@ export function TrustScoreTrendChart({
           </p>
         </div>
 
-        {/* Domain Profile Selector */}
-        <div className="flex flex-wrap items-center gap-2">
-          {liveScanProfile && (
-            <button
-              type="button"
-              onClick={() => setSelectedDomainKey("current")}
-              className={`text-xs px-3 py-1.5 font-code border transition-colors ${
-                selectedDomainKey === "current"
-                  ? "border-amber-400 bg-amber-500 text-black font-semibold shadow-[0_0_10px_rgba(245,158,11,0.3)]"
-                  : "border-amber-500/40 bg-black/60 text-zinc-300 hover:text-amber-300 hover:border-amber-400"
-              }`}
-            >
-              Current: {liveScanProfile.domain}
-            </button>
-          )}
-
-          <button
-            type="button"
-            onClick={() => setSelectedDomainKey("github.com")}
-            className={`text-xs px-3 py-1.5 font-code border transition-colors ${
-              selectedDomainKey === "github.com"
-                ? "border-amber-400 bg-amber-500 text-black font-semibold shadow-[0_0_10px_rgba(245,158,11,0.3)]"
-                : "border-amber-500/40 bg-black/60 text-zinc-300 hover:text-amber-300 hover:border-amber-400"
-            }`}
-          >
-            github.com (Clean)
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setSelectedDomainKey("emudhra-auth-gateway-test.net")}
-            className={`text-xs px-3 py-1.5 font-code border transition-colors ${
-              selectedDomainKey === "emudhra-auth-gateway-test.net"
-                ? "border-amber-400 bg-amber-500 text-black font-semibold shadow-[0_0_10px_rgba(245,158,11,0.3)]"
-                : "border-amber-500/40 bg-black/60 text-amber-300 hover:border-amber-400"
-            }`}
-          >
-            emudhra-gateway (Weak Key)
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setSelectedDomainKey("legacy-portal-example.org")}
-            className={`text-xs px-3 py-1.5 font-code border transition-colors ${
-              selectedDomainKey === "legacy-portal-example.org"
-                ? "border-red-500/60 bg-red-950/60 text-red-300 font-semibold"
-                : "border-amber-500/40 bg-black/60 text-zinc-300 hover:text-red-300 hover:border-red-500/50"
-            }`}
-          >
-            legacy-portal (Expired)
-          </button>
-        </div>
       </div>
 
       {/* KPI Stats Strip */}

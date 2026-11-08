@@ -31,18 +31,6 @@ interface BulkUrlScannerProps {
   onInspectDomain?: (domain: string, scanData?: FullScanResult) => void;
 }
 
-const PRESET_BATCHES = {
-  banking: ["paypal.com", "chase.com", "secure-login-hdfc-update.com", "wellsfargo.com"],
-  infrastructure: ["github.com", "cloudflare.com", "emudhra-auth-gateway-test.net", "google.com"],
-  mixedRisk: [
-    "github.com",
-    "secure-login-hdfc-update.com",
-    "emudhra-auth-gateway-test.net",
-    "cloudflare.com",
-    "expired-rsa-demo.net",
-  ],
-};
-
 export function BulkUrlScanner({ onInspectDomain }: BulkUrlScannerProps) {
   const [inputUrls, setInputUrls] = useState(
     "github.com\ncloudflare.com\nemudhra-auth-gateway-test.net\nsecure-login-hdfc-update.com",
@@ -94,10 +82,6 @@ export function BulkUrlScanner({ onInspectDomain }: BulkUrlScannerProps) {
     } finally {
       setIsRunning(false);
     }
-  };
-
-  const handleLoadPreset = (presetKey: keyof typeof PRESET_BATCHES) => {
-    setInputUrls(PRESET_BATCHES[presetKey].join("\n"));
   };
 
   const handleClear = () => {
@@ -267,31 +251,6 @@ export function BulkUrlScanner({ onInspectDomain }: BulkUrlScannerProps) {
           </p>
         </div>
 
-        {/* Preset Buttons */}
-        <div className="flex flex-wrap items-center gap-1.5 text-xs">
-          <span className="text-[10px] uppercase text-zinc-400 font-pixel mr-1">Presets:</span>
-          <button
-            type="button"
-            onClick={() => handleLoadPreset("mixedRisk")}
-            className="border border-amber-500/40 bg-black/60 px-2.5 py-1 text-[11px] font-code hover:border-amber-400 hover:text-amber-300 text-zinc-300 transition-colors"
-          >
-            Mixed Risk
-          </button>
-          <button
-            type="button"
-            onClick={() => handleLoadPreset("banking")}
-            className="border border-amber-500/40 bg-black/60 px-2.5 py-1 text-[11px] font-code hover:border-amber-400 hover:text-amber-300 text-zinc-300 transition-colors"
-          >
-            Banking Targets
-          </button>
-          <button
-            type="button"
-            onClick={() => handleLoadPreset("infrastructure")}
-            className="border border-amber-500/40 bg-black/60 px-2.5 py-1 text-[11px] font-code hover:border-amber-400 hover:text-amber-300 text-zinc-300 transition-colors"
-          >
-            Critical Infra
-          </button>
-        </div>
       </div>
 
       {/* Input Area */}

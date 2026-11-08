@@ -159,22 +159,13 @@ describe("BulkUrlScanner Component", () => {
     );
   });
 
-  it("renders bulk scanner header and preset buttons", () => {
+  it("renders bulk scanner without ready-made presets", () => {
     render(<BulkUrlScanner />);
     expect(screen.getByText("Bulk URL Threat Assessment & Comparison")).toBeInTheDocument();
     expect(screen.getByText("Run Concurrent Bulk Scan")).toBeInTheDocument();
-    expect(screen.getByText("Banking Targets")).toBeInTheDocument();
-    expect(screen.getByText("Critical Infra")).toBeInTheDocument();
-  });
-
-  it("loads preset domains when preset button clicked", () => {
-    render(<BulkUrlScanner />);
-    const bankingBtn = screen.getByRole("button", { name: /Banking Targets/i });
-    fireEvent.click(bankingBtn);
-
-    const textarea = screen.getByPlaceholderText(/example.com/i) as HTMLTextAreaElement;
-    expect(textarea.value).toContain("paypal.com");
-    expect(textarea.value).toContain("chase.com");
+    expect(screen.queryByText("Mixed Risk")).not.toBeInTheDocument();
+    expect(screen.queryByText("Banking Targets")).not.toBeInTheDocument();
+    expect(screen.queryByText("Critical Infra")).not.toBeInTheDocument();
   });
 
   it("executes bulk scan and displays comparison table", async () => {
