@@ -7,7 +7,9 @@ import {
   FileCheck2,
   Globe2,
   KeyRound,
+  Lock,
   LockKeyhole,
+  LogOut,
   MailCheck,
   Menu,
   RefreshCw,
@@ -25,6 +27,7 @@ import { ShareReportModal } from "@/components/ShareReportModal";
 import { TrustScoreTrendChart } from "@/components/TrustScoreTrendChart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks/use-auth";
 import type { FullScanResult } from "@/server/scanner";
 
 export const Route = createFileRoute("/dashboard")({
@@ -50,6 +53,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 export default function Dashboard() {
+  const { user, canAccessCommunityIntelligence, signIn, signOut } = useAuth();
   const [urlInput, setUrlInput] = useState("");
   const [isScanning, setIsScanning] = useState(false);
   const [scanStep, setScanStep] = useState(0);
@@ -188,10 +192,17 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             <button
               type="button"
               onClick={() => navigateTo("threat-feed")}
-              className="hover:text-foreground transition-colors whitespace-nowrap shrink-0 flex items-center gap-2"
+              className="hover:text-foreground transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5"
             >
-              Community Intelligence
-              <span className="size-1.5 rounded-full bg-success" />
+              <span>Community Intelligence</span>
+              {canAccessCommunityIntelligence ? (
+                <span className="size-1.5 rounded-full bg-success" />
+              ) : (
+                <span className="text-[10px] font-mono px-1 py-0.2 border border-warning/50 text-warning bg-warning/10 flex items-center gap-0.5">
+                  <Lock size={9} />
+                  Locked
+                </span>
+              )}
             </button>
             <button
               type="button"
@@ -209,21 +220,52 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             </button>
           </nav>
 
-          {/* Zone 3: 1 Primary action */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Zone 3: Actions & Auth Status */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            {user ? (
+              <div className="flex items-center gap-2 border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-mono">
+                <span className="size-2 rounded-full bg-success animate-pulse" />
+                <span className="truncate max-w-[110px] text-primary font-semibold">
+                  {user.displayName || user.email?.split("@")[0] || "Analyst"}
+                </span>
+                <button
+                  type="button"
+                  onClick={signOut}
+                  className="text-muted-foreground hover:text-danger ml-1"
+                  title="Sign Out"
+                >
+                  <LogOut size={13} />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <span className="border border-warning/40 bg-warning/10 text-warning text-[10px] font-mono px-2 py-1">
+                  👾 GUEST
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={signIn}
+                  className="h-8 px-2.5 rounded-none border-primary/50 text-primary text-xs font-mono hover:bg-primary/10"
+                >
+                  Sign In
+                </Button>
+              </div>
+            )}
+
             <Button
               onClick={() => {
                 document.getElementById("target-domain-input")?.focus();
               }}
-              className="h-9 px-4 text-xs font-semibold whitespace-nowrap shrink-0 rounded-none bg-primary text-primary-foreground hover:bg-primary/90"
+              className="h-8 px-3 text-xs font-semibold whitespace-nowrap shrink-0 rounded-none bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              <Search size={14} className="mr-1.5" />
-              New Investigation
+              <Search size={13} className="mr-1.5" />
+              Investigate
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden size-9"
+              className="md:hidden size-8"
               onClick={() => setMobileNavOpen(!mobileNavOpen)}
             >
               <Menu size={18} />
@@ -790,14 +832,78 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
           />
         </section>
 
-        {/* Dedicated Community Threat Intelligence Feed Component */}
-        <CommunityThreatFeed
-          onInspectDomain={(domain) => {
-            setUrlInput(domain);
-            handleScan(domain);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        />
+        {/* Dedicated Community Threat Intelligence: Gated for Guests, Active for Authenticated */}
+        {canAccessCommunityIntelligence ? (
+          <CommunityThreatFeed
+            onInspectDomain={(domain) => {
+              setUrlInput(domain);
+              handleScan(domain);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            canParticipate={true}
+          />
+        ) : (
+          <section id="threat-feed" className="space-y-6 pt-10">
+            <div className="border-2 border-[#ff6b35]/60 bg-[#0c1017] p-8 sm:p-10 shadow-2xl relative overflow-hidden">
+              <div className="max-w-2xl space-y-4">
+                <div className="inline-flex items-center gap-2 font-pixel text-[11px] text-[#ff6b35] tracking-wider uppercase bg-[#ff6b35]/10 px-2.5 py-1 border border-[#ff6b35]/30">
+                  <Lock size={13} />
+                  COMMUNITY THREAT INTELLIGENCE // RESTRICTED ACCESS
+                </div>
+
+                <h2 className="font-arcade text-lg sm:text-xl text-foreground tracking-tight leading-snug">
+                  ANALYST AUTHENTICATION REQUIRED
+                </h2>
+
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  You are currently exploring TrustGuard AI in{" "}
+                  <strong className="text-foreground">Guest Mode</strong>. While single-domain
+                  probing, bulk security scans, and trust trend surveillance are fully accessible,
+                  the live collaborative threat feed is locked to protect community consensus
+                  against unverified or automated submissions.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 py-2 font-mono text-xs text-muted-foreground">
+                  <div className="p-3 border border-border bg-card/60">
+                    <span className="text-[#a3e635] font-semibold block mb-1">01. Live IOCs</span>
+                    Confirmed malicious domains & phishing signatures.
+                  </div>
+                  <div className="p-3 border border-border bg-card/60">
+                    <span className="text-[#ff6b35] font-semibold block mb-1">
+                      02. Upvote Signals
+                    </span>
+                    Boost community verification on active attack campaigns.
+                  </div>
+                  <div className="p-3 border border-border bg-card/60">
+                    <span className="text-[#00f0ff] font-semibold block mb-1">
+                      03. Incident Reporting
+                    </span>
+                    Publish newly discovered weak CAs & typosquats.
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 pt-3">
+                  <Button
+                    onClick={signIn}
+                    className="h-10 px-6 rounded-none bg-[#ff6b35] hover:bg-[#ff8a00] text-black font-arcade text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(255,107,53,0.35)] cursor-pointer"
+                  >
+                    ⚡ SIGN IN WITH GOOGLE TO UNLOCK
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      document.getElementById("target-domain-input")?.focus();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="h-10 px-4 rounded-none border-border text-xs font-mono text-muted-foreground hover:text-foreground cursor-pointer"
+                  >
+                    Continue Using Guest Probing
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Browser Extension Integration Guide & Snippet Suite */}
         <BrowserExtensionGuide />

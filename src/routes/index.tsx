@@ -1,40 +1,42 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   ArrowRight,
-  CheckCircle2,
-  Cpu,
+  Check,
   Globe2,
   KeyRound,
-  LockKeyhole,
-  LogIn,
-  Search,
+  Lock,
+  LogOut,
+  Radio,
   Server,
+  Shield,
   ShieldAlert,
   ShieldCheck,
-  Sparkles,
   Terminal,
-  Users,
-  X,
+  Zap,
 } from "lucide-react";
 
-import welcomeHeroImage from "@/assets/trustguard-welcome.jpg";
+import welcomeBgImage from "@/assets/trustguard-welcome.jpg";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "TrustGuard AI — Welcome & Access Portal" },
+      { title: "TrustGuard AI // MLH x Hacktoberfest Threat Intelligence" },
       {
         name: "description",
         content:
-          "AI-powered web threat detection and digital trust intelligence. Inspect domains with real-time TLS handshake analysis, eMudhra weak-key auditing, and Gemini AI threat synthesis.",
+          "AI-powered web threat detection and digital trust intelligence. Authenticate with Firebase for full Community Threat Intelligence or explore as a guest.",
       },
-      { property: "og:title", content: "TrustGuard AI — Welcome & Access Portal" },
+      {
+        property: "og:title",
+        content: "TrustGuard AI // MLH x Hacktoberfest Threat Intelligence",
+      },
       {
         property: "og:description",
         content:
-          "AI-powered web threat detection and digital trust intelligence. Inspect domains with real-time TLS handshake analysis, eMudhra weak-key auditing, and Gemini AI threat synthesis.",
+          "AI-powered web threat detection and digital trust intelligence. Authenticate with Firebase for full Community Threat Intelligence or explore as a guest.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -43,351 +45,438 @@ export const Route = createFileRoute("/")({
   component: WelcomePage,
 });
 
+// Crisp pixel art Space Invader alien (8-bit)
+function PixelAlien({
+  className = "size-5",
+  color = "currentColor",
+}: {
+  className?: string;
+  color?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 11 8"
+      className={className}
+      fill={color}
+      xmlns="http://www.w3.org/2000/svg"
+      shapeRendering="crispEdges"
+    >
+      <path d="M2 0h1v1H2zM8 0h1v1H8zM3 1h1v1H3zM7 1h1v1H7zM2 2h7v1H2zM1 3h2v1H1zM4 3h3v1H4zM8 3h2v1H8zM0 4h11v1H0zM0 5h1v1H0zM2 5h7v1H2zM10 5h1v1H10zM0 6h1v2H0zM2 6h1v1H2zM8 6h1v1H8zM10 6h1v2H10zM3 7h2v1H3zM6 7h2v1H6z" />
+    </svg>
+  );
+}
+
+// Crisp pixel art Shield (8-bit)
+function PixelShield({
+  className = "size-8",
+  color = "#a3e635",
+}: {
+  className?: string;
+  color?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 12 14"
+      className={className}
+      fill={color}
+      xmlns="http://www.w3.org/2000/svg"
+      shapeRendering="crispEdges"
+    >
+      <path d="M1 0h10v2H1zM0 2h12v4H0zM1 6h10v2H1zM2 8h8v2H2zM3 10h6v2H3zM4 12h4v1H4zM5 13h2v1H5z" />
+      <path d="M5 3h2v6H5zM3 5h6v2H3z" fill="#080b10" />
+    </svg>
+  );
+}
+
 export default function WelcomePage() {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user, loading, signIn, signOut, continueAsGuest } = useAuth();
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [isSigningIn, setIsSigningIn] = useState(false);
+
+  const handleGoogleSignIn = async () => {
+    setAuthError(null);
+    setIsSigningIn(true);
+    try {
+      await signIn();
+      navigate({ to: "/dashboard" });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Authentication cancelled or failed";
+      setAuthError(msg);
+    } finally {
+      setIsSigningIn(false);
+    }
+  };
+
+  const handleGuestAccess = () => {
+    continueAsGuest();
+    navigate({ to: "/dashboard" });
+  };
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20">
-      {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-6 px-5 sm:px-8 lg:px-12">
-          <Link
-            to="/"
-            className="flex items-center gap-2.5 text-base font-semibold tracking-tight text-foreground hover:text-primary transition-colors"
-          >
-            <span className="grid size-8 place-items-center border border-primary/30 bg-primary/10 text-primary">
-              <ShieldCheck size={18} strokeWidth={2} />
-            </span>
-            <span>
-              TrustGuard <span className="text-primary font-normal">AI</span>
-            </span>
-          </Link>
+    <div className="min-h-screen bg-[#070a0e] text-[#e2e8f0] font-sans antialiased relative overflow-x-hidden selection:bg-[#ff6b35]/30 selection:text-[#ff8a00]">
+      {/* Background visual texture with high-contrast vignette */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-20 bg-cover bg-center mix-blend-luminosity scale-105 filter blur-[1px]"
+        style={{ backgroundImage: `url(${welcomeBgImage})` }}
+      />
+      <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-[#070a0e]/80 via-[#070a0e]/95 to-[#070a0e]" />
+      <div
+        className="fixed inset-0 pointer-events-none opacity-15"
+        style={{
+          backgroundImage:
+            "radial-gradient(#ff6b35 1px, transparent 1px), radial-gradient(#2dd4bf 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+          backgroundPosition: "0 0, 16px 16px",
+        }}
+      />
 
+      {/* Retro MLH / Hacktoberfest Top Bar */}
+      <header className="relative z-30 border-b border-[#222f3e] bg-[#0c1017]/90 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-4 sm:px-8">
+          {/* Brand Logo & Pixel Shield */}
           <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setAuthModalOpen(true)}
-              className="h-9 px-3.5 rounded-none border-border text-xs font-mono text-muted-foreground hover:text-foreground"
-            >
-              <LogIn size={13} className="mr-1.5" />
-              Sign In
-            </Button>
-            <Link to="/dashboard">
-              <Button
-                size="sm"
-                className="h-9 px-4 rounded-none bg-primary text-primary-foreground font-semibold text-xs hover:bg-primary/90"
-              >
-                Launch Dashboard
-                <ArrowRight size={13} className="ml-1.5" />
-              </Button>
-            </Link>
+            <div className="relative p-1.5 bg-[#121924] border-2 border-[#a3e635] shadow-[0_0_12px_rgba(163,230,53,0.35)]">
+              <PixelShield className="size-6 text-[#a3e635]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-arcade text-xs sm:text-sm text-[#ff6b35] tracking-wider uppercase">
+                  TRUSTGUARD
+                </span>
+                <span className="font-pixel text-[10px] px-1.5 py-0.5 bg-[#a3e635] text-[#080b10] font-bold uppercase tracking-tight">
+                  MLH // 2026
+                </span>
+              </div>
+              <p className="text-[10px] font-mono text-[#64748b] tracking-wider uppercase hidden sm:block">
+                Digital Trust Intelligence & Web Threat Defense
+              </p>
+            </div>
+          </div>
+
+          {/* User Auth Status Bar */}
+          <div className="flex items-center gap-3">
+            {user ? (
+              <div className="flex items-center gap-2.5 bg-[#121924] border border-[#2dd4bf]/40 px-3 py-1.5 font-mono text-xs">
+                <span className="size-2 rounded-full bg-[#2dd4bf] animate-ping" />
+                <span className="text-[#2dd4bf] font-semibold truncate max-w-[140px]">
+                  {user.displayName || user.email}
+                </span>
+                <button
+                  type="button"
+                  onClick={signOut}
+                  className="text-[#94a3b8] hover:text-[#ff6b35] transition-colors ml-1"
+                  title="Sign Out"
+                >
+                  <LogOut size={13} />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 font-mono text-[11px] text-[#94a3b8]">
+                <span className="size-2 rounded-full bg-[#ff6b35]" />
+                <span className="hidden sm:inline">AUTHENTICATION PENDING</span>
+              </div>
+            )}
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 py-12 md:py-20 space-y-24">
-        {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-mono uppercase tracking-[0.12em] text-primary">
-              <span className="size-1.5 rounded-full bg-primary animate-pulse" />
-              Trust Intelligence Platform v2.4 · Threat Sensing Active
+      {/* Main Hacktoberfest / Hacker Desk Command Viewport */}
+      <main className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 py-8 lg:py-14 space-y-12">
+        {/* Floating Physical Sticky Notes Inspired by Image */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
+          {/* Yellow Padlock Post-It */}
+          <div className="bg-[#fef08a] text-[#0a0e14] p-3 shadow-lg border border-[#eab308] rotate-[-2deg] transition-transform hover:rotate-0 hover:scale-105">
+            <div className="flex items-center justify-between pb-1 border-b border-[#0a0e14]/20">
+              <span className="font-pixel text-[10px] font-bold uppercase tracking-wider">
+                TLS 1.3
+              </span>
+              <Lock size={13} strokeWidth={2.5} />
             </div>
-
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.15]">
-              AI-Powered Web Threat Detection & Digital Trust Intelligence
-            </h1>
-
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl">
-              Conduct high-fidelity domain security audits. Probe live TLS handshakes, audit eMudhra
-              weak-key generation vulnerabilities, inspect HTTP security headers, and synthesize
-              forensic threat intelligence with Gemini 3.8 Flash.
+            <p className="font-mono text-[10px] font-medium leading-tight mt-1.5">
+              Port 443 socket & X.509 raw modulus audit
             </p>
+          </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-              <Link to="/dashboard">
-                <Button className="w-full sm:w-auto h-11 px-6 rounded-none bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 shadow-[0_0_24px_rgba(45,212,191,0.25)]">
-                  Continue as Guest
-                  <ArrowRight size={15} className="ml-2" />
-                </Button>
-              </Link>
-              <Button
-                variant="outline"
-                onClick={() => setAuthModalOpen(true)}
-                className="h-11 px-6 rounded-none border-border bg-card text-foreground font-mono text-xs hover:border-primary/50"
-              >
-                <LogIn size={14} className="mr-2 text-primary" />
-                Sign In with Firebase
-              </Button>
+          {/* Orange/Red Space Invader Sticker */}
+          <div className="bg-[#ff4d4d] text-[#ffffff] p-3 shadow-lg border border-[#dc2626] rotate-[2deg] transition-transform hover:rotate-0 hover:scale-105">
+            <div className="flex items-center justify-between pb-1 border-b border-[#ffffff]/20">
+              <span className="font-pixel text-[10px] font-bold uppercase tracking-wider">
+                WEAK CA
+              </span>
+              <PixelAlien className="size-4 text-white" />
+            </div>
+            <p className="font-mono text-[10px] font-medium leading-tight mt-1.5 text-white/95">
+              eMudhra flaw & common prime sensor
+            </p>
+          </div>
+
+          {/* Cyan Wireframe Globe Sticker */}
+          <div className="bg-[#00f0ff] text-[#070b12] p-3 shadow-lg border border-[#00c4d4] rotate-[-1deg] transition-transform hover:rotate-0 hover:scale-105">
+            <div className="flex items-center justify-between pb-1 border-b border-[#070b12]/20">
+              <span className="font-pixel text-[10px] font-bold uppercase tracking-wider">
+                CT LOGS
+              </span>
+              <Globe2 size={13} strokeWidth={2.5} />
+            </div>
+            <p className="font-mono text-[10px] font-medium leading-tight mt-1.5">
+              Transparency cert surveillance
+            </p>
+          </div>
+
+          {/* Electric Lime MLH Badge */}
+          <div className="bg-[#a3e635] text-[#070b12] p-3 shadow-lg border border-[#84cc16] rotate-[3deg] transition-transform hover:rotate-0 hover:scale-105">
+            <div className="flex items-center justify-between pb-1 border-b border-[#070b12]/20">
+              <span className="font-pixel text-[10px] font-bold uppercase tracking-wider">
+                GEMINI AI
+              </span>
+              <Zap size={13} strokeWidth={2.5} />
+            </div>
+            <p className="font-mono text-[10px] font-medium leading-tight mt-1.5">
+              Flash threat scoring & IOC vectors
+            </p>
+          </div>
+        </div>
+
+        {/* Central Hacker Terminal Station (Modeled after the laptop in trustguard-welcome.jpg) */}
+        <div className="max-w-5xl mx-auto border-2 border-[#243346] bg-[#0c1017] shadow-[0_0_50px_rgba(0,0,0,0.85)] relative overflow-hidden">
+          {/* Terminal Title Bar */}
+          <div className="bg-[#141b24] border-b-2 border-[#243346] px-4 py-2.5 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="size-3 rounded-full bg-[#ff4d4d] inline-block" />
+              <span className="size-3 rounded-full bg-[#fef08a] inline-block" />
+              <span className="size-3 rounded-full bg-[#a3e635] inline-block" />
+              <span className="font-mono text-xs text-[#94a3b8] ml-2">
+                trustguard@hacktoberfest:~# /bin/auth_gate.sh
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="font-pixel text-[10px] text-[#a3e635] flex items-center gap-1.5 bg-[#a3e635]/10 px-2 py-0.5 border border-[#a3e635]/30">
+                <span className="size-1.5 rounded-full bg-[#a3e635] animate-ping" />
+                SYS_ONLINE
+              </span>
+            </div>
+          </div>
+
+          {/* Terminal Screen Body */}
+          <div className="p-6 sm:p-10 space-y-8 bg-[#090d14]/95">
+            {/* Header / Banner */}
+            <div className="space-y-3 text-center sm:text-left border-b border-[#1e293b] pb-6">
+              <div className="inline-flex items-center gap-2 bg-[#ff6b35]/15 border border-[#ff6b35]/40 px-3 py-1 font-pixel text-[11px] text-[#ff6b35] tracking-wider uppercase">
+                <PixelAlien className="size-3.5 text-[#ff6b35]" />
+                MLH x HACKTOBERFEST // SECURITY RADAR
+              </div>
+
+              <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-[#f8fafc] tracking-tight leading-tight">
+                TrustGuard <span className="text-[#a3e635]">AI</span>
+              </h1>
+
+              <p className="font-code text-xs sm:text-sm text-[#94a3b8] max-w-2xl leading-relaxed">
+                Autonomous real-time digital trust intelligence workstation. Real socket TLS
+                probing, cryptographic weakness hunting, and collaborative community threat
+                detection.
+              </p>
             </div>
 
-            {/* Key Assurance Badges */}
-            <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-border text-xs text-muted-foreground font-mono">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={14} className="text-primary shrink-0" />
-                <span>Zero Installation</span>
+            {/* Error Notification Banner if sign-in fails */}
+            {authError && (
+              <div className="p-3 bg-[#ff4d4d]/15 border-2 border-[#ff4d4d] font-mono text-xs text-[#ff4d4d] flex items-center gap-2">
+                <ShieldAlert size={16} className="shrink-0" />
+                <span>Authentication Error: {authError}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={14} className="text-primary shrink-0" />
-                <span>Guest-Ready Dashboard</span>
+            )}
+
+            {/* TWO ACCESS OPTIONS CONTRACT */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              {/* Card 1: ACCESS WITH SIGN IN (Full Platform & Community Intelligence) */}
+              <div className="border-2 border-[#ff6b35] bg-[#121924] p-6 space-y-5 relative group hover:shadow-[0_0_25px_rgba(255,107,53,0.25)] transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-pixel text-[11px] font-bold px-2 py-0.5 bg-[#ff6b35] text-[#070b12] uppercase tracking-wider">
+                      RECOMMENDED
+                    </span>
+                    <span className="font-code text-[11px] text-[#ff6b35] font-semibold">
+                      FIREBASE AUTH
+                    </span>
+                  </div>
+
+                  <h3 className="font-arcade text-sm sm:text-base text-[#f8fafc] pt-1">
+                    ACCESS WITH SIGN-IN
+                  </h3>
+
+                  <p className="font-code text-xs text-[#cbd5e1] leading-relaxed">
+                    Authenticate via Google for verified analyst credentials. Unlocks unrestricted
+                    access to the live collaborative intelligence network.
+                  </p>
+
+                  {/* Included capabilities */}
+                  <ul className="space-y-2 pt-2 font-mono text-xs text-[#94a3b8]">
+                    <li className="flex items-center gap-2 text-[#a3e635]">
+                      <Check size={14} className="shrink-0" />
+                      <span>Full Community Threat Feed Access</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-[#a3e635]">
+                      <Check size={14} className="shrink-0" />
+                      <span>Upvote & Verify Threat IOCs</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-[#a3e635]">
+                      <Check size={14} className="shrink-0" />
+                      <span>Submit Malicious Domains & Forensic Notes</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-[#a3e635]">
+                      <Check size={14} className="shrink-0" />
+                      <span>Live TLS Handshake & eMudhra Auditing</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="pt-4">
+                  <Button
+                    onClick={handleGoogleSignIn}
+                    disabled={isSigningIn || loading}
+                    className="w-full h-12 rounded-none bg-[#ff6b35] hover:bg-[#ff8a00] text-[#080b10] font-arcade text-xs tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(255,107,53,0.4)] cursor-pointer"
+                  >
+                    {isSigningIn ? (
+                      <span className="flex items-center gap-2">
+                        <span className="size-2 rounded-full bg-black animate-ping" />
+                        AUTHENTICATING...
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        <Zap size={14} />
+                        SIGN IN WITH GOOGLE
+                      </span>
+                    )}
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={14} className="text-primary shrink-0" />
-                <span>Real-Time TLS Probing</span>
+
+              {/* Card 2: ACCESS WITHOUT SIGN IN (Guest Mode - Community Feed Locked) */}
+              <div className="border-2 border-[#334155] bg-[#0f141d] p-6 space-y-5 relative group hover:border-[#64748b] transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-pixel text-[11px] font-bold px-2 py-0.5 bg-[#334155] text-[#94a3b8] uppercase tracking-wider">
+                      GUEST ACCESS
+                    </span>
+                    <span className="font-code text-[11px] text-[#ff4d4d] font-semibold flex items-center gap-1">
+                      <Lock size={12} /> FEED RESTRICTED
+                    </span>
+                  </div>
+
+                  <h3 className="font-arcade text-sm sm:text-base text-[#e2e8f0] pt-1">
+                    ACCESS WITHOUT SIGN-IN
+                  </h3>
+
+                  <p className="font-code text-xs text-[#94a3b8] leading-relaxed">
+                    Explore diagnostic tools as a guest. Deep TLS socket probing and bulk scans are
+                    enabled, but Community Threat Intelligence is strictly locked.
+                  </p>
+
+                  {/* Included capabilities vs locked */}
+                  <ul className="space-y-2 pt-2 font-mono text-xs">
+                    <li className="flex items-center gap-2 text-[#a3e635]">
+                      <Check size={14} className="shrink-0" />
+                      <span>Single Domain TLS & X.509 Probing</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-[#a3e635]">
+                      <Check size={14} className="shrink-0" />
+                      <span>Bulk URL Security Auditing</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-[#a3e635]">
+                      <Check size={14} className="shrink-0" />
+                      <span>Gemini 3.8 Flash Threat Analysis</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-[#ff4d4d] opacity-90">
+                      <Lock size={14} className="shrink-0" />
+                      <span>Community Intelligence Feed (Locked)</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="pt-4">
+                  <Button
+                    onClick={handleGuestAccess}
+                    variant="outline"
+                    className="w-full h-12 rounded-none border-2 border-[#475569] bg-[#141b24] hover:bg-[#1e293b] hover:border-[#a3e635] text-[#e2e8f0] font-arcade text-xs tracking-wider uppercase transition-all cursor-pointer"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <PixelAlien className="size-4 text-[#a3e635]" />
+                      CONTINUE AS GUEST
+                      <ArrowRight size={13} />
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Live Terminal Telemetry Output Inspired by visual laptop screen */}
+            <div className="border border-[#1e293b] bg-[#070a0e] p-4 font-mono text-xs space-y-2">
+              <div className="flex items-center justify-between text-[11px] text-[#64748b] border-b border-[#1e293b] pb-2">
+                <span className="text-[#a3e635] font-semibold flex items-center gap-1.5">
+                  <Terminal size={12} />
+                  LIVE_PROBE_TELEMETRY.log
+                </span>
+                <span>STATUS: 200 OK</span>
+              </div>
+              <div className="space-y-1 text-[#94a3b8] text-[11px]">
+                <p>
+                  <span className="text-[#ff6b35]">[AUTH]</span> Firebase Authentication ready
+                  (Google Provider initialized)
+                </p>
+                <p>
+                  <span className="text-[#a3e635]">[TLS]</span> Native socket probe Port 443 (X.509
+                  Modulus & SAN validation)
+                </p>
+                <p>
+                  <span className="text-[#fef08a]">[CRYPTO]</span> eMudhra flawed prime generator
+                  audit heuristic loaded
+                </p>
+                <p>
+                  <span className="text-[#00f0ff]">[AI]</span> Gemini 3.8 Flash server-side threat
+                  synthesis online
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Hero Visual */}
-          <div className="lg:col-span-5">
-            <div className="relative border border-border bg-card overflow-hidden shadow-2xl group">
-              <div className="absolute top-0 inset-x-0 h-8 bg-secondary/80 border-b border-border flex items-center justify-between px-3 z-10">
-                <div className="flex items-center gap-1.5">
-                  <span className="size-2 rounded-full bg-danger/80" />
-                  <span className="size-2 rounded-full bg-warning/80" />
-                  <span className="size-2 rounded-full bg-success/80" />
-                  <span className="text-[10px] font-mono text-muted-foreground ml-2">
-                    trustguard-sensor.bin
-                  </span>
-                </div>
-                <span className="text-[10px] font-mono text-primary flex items-center gap-1">
-                  <span className="size-1 rounded-full bg-primary animate-ping" />
-                  ONLINE
-                </span>
-              </div>
-
-              <div className="pt-8 overflow-hidden aspect-[4/3] relative">
-                <img
-                  src={welcomeHeroImage}
-                  alt="TrustGuard Cyber Intelligence Lab"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
-
-                <div className="absolute bottom-3 left-3 right-3 p-3 bg-background/90 backdrop-blur-md border border-border text-xs space-y-1">
-                  <div className="flex items-center justify-between text-[11px] font-mono">
-                    <span className="text-primary font-semibold">Active Sensor Suite</span>
-                    <span className="text-muted-foreground">TLS 1.3 / Port 443</span>
-                  </div>
-                  <p className="text-[11px] text-muted-foreground">
-                    Deep socket auditing detects weak keys, expired certificates, and malicious
-                    infrastructure in real time.
-                  </p>
-                </div>
-              </div>
+          {/* Terminal Bottom Status Bar */}
+          <div className="bg-[#141b24] border-t-2 border-[#243346] px-4 py-2 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#64748b] gap-2">
+            <div className="flex items-center gap-3">
+              <span className="text-[#a3e635]">● SOCKET READY</span>
+              <span>FIREBASE PROJECT: {user ? "CONNECTED" : "STANDBY"}</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span>SECURITY LEVEL: MAXIMUM</span>
+              <span className="text-[#ff6b35]">HACKTOBERFEST 2026</span>
             </div>
           </div>
         </div>
 
-        {/* Feature Capabilities Grid */}
-        <section className="space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-primary">
-              Core Forensic Engines
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
-              Comprehensive Defense Architecture
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground">
-              Every layer of trust verification runs concurrently to deliver actionable threat
-              verdicts.
-            </p>
+        {/* Bottom Desk Decor Details (Matching visual) */}
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#64748b] border-t border-[#1e293b] pt-6 gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-sm">👾</span>
+            <span>TrustGuard AI · Hacktoberfest Threat Intelligence</span>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div className="border border-border bg-card p-6 space-y-3">
-              <div className="size-10 grid place-items-center border border-primary/30 bg-primary/10 text-primary">
-                <LockKeyhole size={20} />
-              </div>
-              <h3 className="text-base font-semibold text-foreground">Live TLS & X.509 Probing</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Connects directly to remote port 443, extracts public modulus, verifies SAN lists,
-                validates cipher suites, and checks expiration telemetry.
-              </p>
-            </div>
-
-            <div className="border border-border bg-card p-6 space-y-3">
-              <div className="size-10 grid place-items-center border border-danger/30 bg-danger/10 text-danger">
-                <KeyRound size={20} />
-              </div>
-              <h3 className="text-base font-semibold text-foreground">
-                eMudhra CA Weak Key Auditing
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Scans for known vulnerable prime generation patterns and flawed RNG implementations
-                associated with compromised certificate authorities.
-              </p>
-            </div>
-
-            <div className="border border-border bg-card p-6 space-y-3">
-              <div className="size-10 grid place-items-center border border-primary/30 bg-primary/10 text-primary">
-                <Sparkles size={20} />
-              </div>
-              <h3 className="text-base font-semibold text-foreground">
-                Gemini 3.8 Flash AI Synthesis
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Analyzes multi-dimensional telemetry, outputs a calculated Trust Score (0–100), maps
-                primary attack vectors, and drafts analyst notes.
-              </p>
-            </div>
-
-            <div className="border border-border bg-card p-6 space-y-3">
-              <div className="size-10 grid place-items-center border border-warning/30 bg-warning/10 text-warning">
-                <ShieldAlert size={20} />
-              </div>
-              <h3 className="text-base font-semibold text-foreground">
-                Security Headers Inspection
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Evaluates Strict-Transport-Security (HSTS), Content-Security-Policy (CSP),
-                X-Frame-Options, and referrer configurations.
-              </p>
-            </div>
-
-            <div className="border border-border bg-card p-6 space-y-3">
-              <div className="size-10 grid place-items-center border border-primary/30 bg-primary/10 text-primary">
-                <Users size={20} />
-              </div>
-              <h3 className="text-base font-semibold text-foreground">
-                Community Threat Intelligence
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Crowdsourced registry of active phishing domains, credential-theft kits, and malware
-                hosts. Upvote verified indicators of compromise.
-              </p>
-            </div>
-
-            <div className="border border-border bg-card p-6 space-y-3">
-              <div className="size-10 grid place-items-center border border-primary/30 bg-primary/10 text-primary">
-                <Terminal size={20} />
-              </div>
-              <h3 className="text-base font-semibold text-foreground">Browser Extension Suite</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Provides ready-to-load Manifest V3 source snippets for real-time background
-                telemetry and automatic badge warnings.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Access Options Callout */}
-        <section className="border border-border bg-card p-8 lg:p-12 relative overflow-hidden">
-          <div className="max-w-2xl space-y-4">
-            <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-primary">
-              Immediate Access
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
-              Start Investigating Suspicious Domains Now
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              Explore the full diagnostic workspace as a guest with instant access to single-domain
-              probing, bulk URL auditing, and trust trend surveillance.
-            </p>
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Link to="/dashboard">
-                <Button className="h-10 px-5 rounded-none bg-primary text-primary-foreground font-semibold text-xs hover:bg-primary/90">
-                  Launch Guest Dashboard
-                  <ArrowRight size={13} className="ml-1.5" />
-                </Button>
-              </Link>
-              <Button
-                variant="outline"
-                onClick={() => setAuthModalOpen(true)}
-                className="h-10 px-5 rounded-none border-border bg-background text-xs font-mono text-muted-foreground hover:text-foreground"
-              >
-                Sign In for Full Community Access
-              </Button>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border mt-20 py-8 text-xs text-muted-foreground">
-        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-foreground">TrustGuard AI</span>
-            <span>·</span>
-            <span>Digital Trust Intelligence Network</span>
-          </div>
-          <div className="flex items-center gap-6 font-mono text-[11px]">
-            <Link to="/dashboard" className="hover:text-foreground transition-colors">
-              Dashboard
-            </Link>
+          <div className="flex items-center gap-4">
             <button
               type="button"
-              onClick={() => setAuthModalOpen(true)}
-              className="hover:text-foreground transition-colors"
+              onClick={handleGuestAccess}
+              className="text-[#94a3b8] hover:text-[#a3e635] transition-colors"
             >
-              Sign In
+              Guest Workspace
+            </button>
+            <span>·</span>
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              className="text-[#ff6b35] hover:underline transition-colors"
+            >
+              Sign In (Analyst)
             </button>
           </div>
         </div>
-      </footer>
-
-      {/* Sign-In Placeholder Modal */}
-      {authModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4"
-          onMouseDown={(e) => {
-            if (e.target === e.currentTarget) setAuthModalOpen(false);
-          }}
-        >
-          <div className="w-full max-w-md border border-border bg-card p-6 shadow-2xl space-y-4">
-            <div className="flex items-start justify-between border-b border-border pb-3">
-              <div>
-                <h3 className="text-base font-semibold text-foreground">
-                  Sign In to TrustGuard AI
-                </h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Sign-in is reserved for verified threat analysts.
-                </p>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setAuthModalOpen(false)}
-                className="size-8 -mr-2 -mt-2 text-muted-foreground hover:text-foreground"
-              >
-                <X size={16} />
-              </Button>
-            </div>
-
-            <div className="p-4 border border-warning/30 bg-warning/10 text-xs space-y-2 text-warning">
-              <div className="font-semibold flex items-center gap-1.5">
-                <ShieldAlert size={15} />
-                <span>Identity Verification Notice</span>
-              </div>
-              <p className="text-[11px] leading-relaxed text-foreground/80">
-                To prevent spam and spoofed IOC submissions, community reports and upvoting require
-                verified authentication. Firebase Authentication can be connected to enable Google
-                Sign-In and analyst roles.
-              </p>
-            </div>
-
-            <div className="space-y-3 pt-2">
-              <Button
-                disabled
-                className="w-full rounded-none border border-border bg-secondary/50 text-muted-foreground text-xs font-mono h-10 cursor-not-allowed"
-                title="Firebase Authentication setup required"
-              >
-                Sign In with Google (Awaiting Firebase Setup)
-              </Button>
-
-              <Link to="/dashboard" onClick={() => setAuthModalOpen(false)}>
-                <Button className="w-full rounded-none bg-primary text-primary-foreground font-semibold text-xs h-10 hover:bg-primary/90">
-                  Continue as Guest to Dashboard
-                  <ArrowRight size={13} className="ml-1.5" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+      </main>
     </div>
   );
 }

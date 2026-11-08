@@ -1,0 +1,43 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile information for authenticated analysts",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 200 },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "role": { "type": "string", "enum": ["analyst", "admin"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    },
+    "CommunityThreat": {
+      "title": "CommunityThreat",
+      "description": "Community reported threat indicator",
+      "type": "object",
+      "properties": {
+        "domain": { "type": "string", "maxLength": 255 },
+        "vector": { "type": "string", "maxLength": 100 },
+        "severity": { "type": "string", "enum": ["Critical", "High", "Medium", "Low"] },
+        "reporter": { "type": "string", "maxLength": 100 },
+        "reporterUid": { "type": "string", "maxLength": 128 },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "votes": { "type": "number" },
+        "reportedAt": { "type": "string" }
+      },
+      "required": ["domain", "vector", "severity", "notes", "votes", "reportedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles"
+    },
+    "/threats/{threatId}": {
+      "schema": "CommunityThreat",
+      "description": "Community submitted threat indicators"
+    }
+  }
+}
