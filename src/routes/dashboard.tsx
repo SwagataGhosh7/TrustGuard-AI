@@ -261,17 +261,17 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             </button>
             <button
               type="button"
-              onClick={() => navigateTo("bulk-scanner")}
-              className="hover:text-[#ff6b35] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
-            >
-              Bulk Audit
-            </button>
-            <button
-              type="button"
               onClick={() => navigateTo("trust-trends")}
               className="hover:text-[#00f0ff] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
             >
               Surveillance
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("bulk-scanner")}
+              className="hover:text-[#ff6b35] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
+            >
+              Bulk Audit
             </button>
             <button
               type="button"
@@ -382,17 +382,17 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             </button>
             <button
               type="button"
-              onClick={() => navigateTo("bulk-scanner")}
-              className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#ff6b35]"
-            >
-              Bulk Audit
-            </button>
-            <button
-              type="button"
               onClick={() => navigateTo("trust-trends")}
               className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#00f0ff]"
             >
               Trust Surveillance
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("bulk-scanner")}
+              className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#ff6b35]"
+            >
+              Bulk Audit
             </button>
             <button
               type="button"
@@ -918,11 +918,31 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
           </section>
         )}
 
-        {/* Section 02: Bulk URL Concurrent Threat Assessment Matrix */}
+        {/* Section 02: Certificate Trust Score Trend Surveillance Line Chart */}
+        <section id="trust-trends" className="space-y-4 pt-4">
+          <div className="flex items-center gap-2 border-b border-[#243346] pb-3">
+            <span className="font-pixel text-[11px] px-2 py-0.5 bg-[#00f0ff] text-black font-bold uppercase">
+              MODULE 02
+            </span>
+            <span className="font-arcade text-xs sm:text-sm text-[#f8fafc] tracking-wider uppercase">
+              CONTINUOUS TRUST SURVEILLANCE
+            </span>
+          </div>
+          <TrustScoreTrendChart
+            currentScan={scanResult}
+            onSelectAuditDomain={(domain) => {
+              setUrlInput(domain);
+              handleScan(domain);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
+        </section>
+
+        {/* Section 03: Bulk URL Concurrent Threat Assessment Matrix */}
         <section id="bulk-scanner" className="space-y-4 pt-4">
           <div className="flex items-center gap-2 border-b border-[#243346] pb-3">
             <span className="font-pixel text-[11px] px-2 py-0.5 bg-[#ff6b35] text-black font-bold uppercase">
-              MODULE 02
+              MODULE 03
             </span>
             <span className="font-arcade text-xs sm:text-sm text-[#f8fafc] tracking-wider uppercase">
               BULK URL THREAT ASSESSMENT
@@ -936,26 +956,6 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               } else {
                 handleScan(domain);
               }
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          />
-        </section>
-
-        {/* Section 03: Certificate Trust Score Trend Surveillance Line Chart */}
-        <section id="trust-trends" className="space-y-4 pt-4">
-          <div className="flex items-center gap-2 border-b border-[#243346] pb-3">
-            <span className="font-pixel text-[11px] px-2 py-0.5 bg-[#00f0ff] text-black font-bold uppercase">
-              MODULE 03
-            </span>
-            <span className="font-arcade text-xs sm:text-sm text-[#f8fafc] tracking-wider uppercase">
-              CONTINUOUS TRUST SURVEILLANCE
-            </span>
-          </div>
-          <TrustScoreTrendChart
-            currentScan={scanResult}
-            onSelectAuditDomain={(domain) => {
-              setUrlInput(domain);
-              handleScan(domain);
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           />
