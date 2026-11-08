@@ -262,6 +262,13 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             </button>
             <button
               type="button"
+              onClick={() => navigateTo("cert-inspector")}
+              className="hover:text-[#2dd4bf] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
+            >
+              Cert Audit
+            </button>
+            <button
+              type="button"
               onClick={() => navigateTo("trust-trends")}
               className="hover:text-[#00f0ff] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
             >
@@ -295,13 +302,6 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               className="hover:text-[#fef08a] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
             >
               MV3 Extension
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("cert-inspector")}
-              className="hover:text-[#2dd4bf] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
-            >
-              Cert Audit
             </button>
           </nav>
 
@@ -383,6 +383,13 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
             </button>
             <button
               type="button"
+              onClick={() => navigateTo("cert-inspector")}
+              className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#2dd4bf]"
+            >
+              Certificate Audit
+            </button>
+            <button
+              type="button"
               onClick={() => navigateTo("trust-trends")}
               className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#00f0ff]"
             >
@@ -408,13 +415,6 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#fef08a]"
             >
               Browser Extension
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("cert-inspector")}
-              className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#2dd4bf]"
-            >
-              Certificate Audit
             </button>
             <div className="pt-2 border-t border-[#243346] flex items-center justify-between">
               {user ? (
