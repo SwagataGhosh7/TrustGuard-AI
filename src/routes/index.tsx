@@ -23,7 +23,7 @@ import { useAuth } from "@/hooks/use-auth";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "TrustGuard AI // MLH x Hacktoberfest Threat Intelligence" },
+      { title: "TrustGuard AI // Collaborative Threat Intelligence" },
       {
         name: "description",
         content:
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "TrustGuard AI // MLH x Hacktoberfest Threat Intelligence",
+        content: "TrustGuard AI // Collaborative Threat Intelligence",
       },
       {
         property: "og:description",
@@ -160,7 +160,7 @@ export default function WelcomePage() {
                   TRUSTGUARD
                 </span>
                 <span className="font-pixel text-[10px] px-1.5 py-0.5 bg-[#a3e635] text-[#080b10] font-bold uppercase tracking-tight">
-                  MLH // 2026
+                  GEMINI 3.8 FLASH POWERED
                 </span>
               </div>
               <p className="text-[10px] font-mono text-[#64748b] tracking-wider uppercase hidden sm:block">
@@ -262,7 +262,7 @@ export default function WelcomePage() {
               <span className="size-3 rounded-full bg-[#fef08a] inline-block" />
               <span className="size-3 rounded-full bg-[#a3e635] inline-block" />
               <span className="font-mono text-xs text-[#94a3b8] ml-2">
-                trustguard@hacktoberfest:~# /bin/auth_gate.sh
+                TrustguardAI/bin/auth_gate.sh
               </span>
             </div>
             <div className="flex items-center gap-3">
@@ -279,7 +279,7 @@ export default function WelcomePage() {
             <div className="space-y-3 text-center sm:text-left border-b border-[#1e293b] pb-6">
               <div className="inline-flex items-center gap-2 bg-[#ff6b35]/15 border border-[#ff6b35]/40 px-3 py-1 font-pixel text-[11px] text-[#ff6b35] tracking-wider uppercase">
                 <PixelAlien className="size-3.5 text-[#ff6b35]" />
-                MLH x HACKTOBERFEST // SECURITY RADAR
+                BROWSER EXTENSION AVAILABLE
               </div>
 
               <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-[#f8fafc] tracking-tight leading-tight">
@@ -309,9 +309,6 @@ export default function WelcomePage() {
                   <div className="flex items-center justify-between">
                     <span className="font-pixel text-[11px] font-bold px-2 py-0.5 bg-[#ff6b35] text-[#070b12] uppercase tracking-wider">
                       RECOMMENDED
-                    </span>
-                    <span className="font-code text-[11px] text-[#ff6b35] font-semibold">
-                      FIREBASE AUTH
                     </span>
                   </div>
 
@@ -471,7 +468,7 @@ export default function WelcomePage() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#64748b] border-t border-[#1e293b] pt-6 gap-4">
           <div className="flex items-center gap-3">
             <span className="text-sm">👾</span>
-            <span>TrustGuard AI · Hacktoberfest Threat Intelligence</span>
+            <span>TrustGuard AI · Collaborative Threat Intelligence</span>
           </div>
           <div className="flex items-center gap-4">
             <button
