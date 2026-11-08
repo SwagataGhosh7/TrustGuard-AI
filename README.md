@@ -1,3 +1,5 @@
+![TrustGuard AI logo](./public/favicon.svg)
+
 # TrustGuard AI
 
 TrustGuard AI is a full-stack digital trust intelligence workstation for
