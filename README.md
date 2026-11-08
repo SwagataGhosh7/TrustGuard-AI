@@ -421,4 +421,4 @@ branding or favicon.
 
 ## License
 
-Add the project's license here before distributing the application publicly.
+This project is licensed under the [MIT License](https://opensource.org/license/mit/).
