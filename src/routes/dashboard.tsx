@@ -20,6 +20,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   Terminal,
+  Trash2,
   Users,
   Zap,
 } from "lucide-react";
@@ -181,6 +182,12 @@ export default function Dashboard() {
     } finally {
       setIsScanning(false);
     }
+  }
+
+  function handleClearTarget() {
+    setUrlInput("");
+    setScanResult(null);
+    setErrorMessage("");
   }
 
   function handleExportJson() {
@@ -521,6 +528,18 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
                     </>
                   )}
                 </Button>
+                {urlInput.trim() && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleClearTarget}
+                    disabled={isScanning}
+                    className="h-12 px-4 rounded-none border-[#334155] bg-[#121924] hover:bg-[#1e293b] text-[#cbd5e1] hover:text-white font-code text-xs uppercase"
+                  >
+                    <Trash2 size={14} className="mr-2" />
+                    Clear
+                  </Button>
+                )}
               </div>
 
               {errorMessage && (
