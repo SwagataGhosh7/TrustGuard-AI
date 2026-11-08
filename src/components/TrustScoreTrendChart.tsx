@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   AlertTriangle,
   ArrowDownRight,
@@ -322,8 +322,6 @@ export function TrustScoreTrendChart({
   currentScan,
   onSelectAuditDomain,
 }: TrustScoreTrendChartProps) {
-  const [selectedDomainKey, setSelectedDomainKey] = useState<string>("github.com");
-
   // Generate dynamic timeline for current live scan if present
   const liveScanProfile = useMemo<DomainHistoryProfile | null>(() => {
     if (!currentScan) return null;
@@ -408,15 +406,11 @@ export function TrustScoreTrendChart({
     };
   }, [currentScan]);
 
-  // Determine which profile is currently being displayed
+  // Live scan data takes precedence over the baseline profile.
   const activeProfile = useMemo<DomainHistoryProfile>(() => {
-    if (selectedDomainKey === "current" && liveScanProfile) {
-      return liveScanProfile;
-    }
-    const preset = PRESET_HISTORIES[selectedDomainKey];
-    if (preset) return preset;
+    if (liveScanProfile) return liveScanProfile;
     return PRESET_HISTORIES["github.com"] as DomainHistoryProfile;
-  }, [selectedDomainKey, liveScanProfile]);
+  }, [liveScanProfile]);
 
   // Statistics calculations
   const stats = useMemo(() => {
