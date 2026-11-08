@@ -4,23 +4,21 @@ import {
   ArrowUpRight,
   ChevronRight,
   Filter,
-  Lock,
   Plus,
   RefreshCw,
   Search,
   ShieldAlert,
   ThumbsUp,
-  UserCheck,
   X,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/lib/auth-context";
 import type { CommunityThreatReport } from "@/server/threat-store";
 
 interface CommunityThreatFeedProps {
   onInspectDomain?: (domain: string) => void;
+  canParticipate?: boolean;
 }
 
 const COMMON_TAGS = [
@@ -32,8 +30,10 @@ const COMMON_TAGS = [
   { id: "critical", label: "Critical Only" },
 ];
 
-export function CommunityThreatFeed({ onInspectDomain }: CommunityThreatFeedProps) {
-  const { isAuthenticated, user } = useAuth();
+export function CommunityThreatFeed({
+  onInspectDomain,
+  canParticipate = false,
+}: CommunityThreatFeedProps) {
   const [threats, setThreats] = useState<CommunityThreatReport[]>([]);
   const [activeTag, setActiveTag] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -41,7 +41,6 @@ export function CommunityThreatFeed({ onInspectDomain }: CommunityThreatFeedProp
   const [loading, setLoading] = useState(false);
   const [votedIds, setVotedIds] = useState<Record<string, boolean>>({});
   const [modalOpen, setModalOpen] = useState(false);
-  const [authRequiredNotice, setAuthRequiredNotice] = useState<string | null>(null);
 
   // New report form state
   const [newDomain, setNewDomain] = useState("");
@@ -75,14 +74,6 @@ export function CommunityThreatFeed({ onInspectDomain }: CommunityThreatFeedProp
   }, []);
 
   const handleUpvote = async (id: string) => {
-    if (!isAuthenticated) {
-      setAuthRequiredNotice(
-        "Authentication Required: Guest mode is read-only. Sign in with Firebase to upvote threat reports and participate in Community Intelligence.",
-      );
-      return;
-    }
-    setAuthRequiredNotice(null);
-
     // Optimistic toggle
     const isCurrentlyVoted = Boolean(votedIds[id]);
     const delta = isCurrentlyVoted ? -1 : 1;
@@ -222,54 +213,22 @@ export function CommunityThreatFeed({ onInspectDomain }: CommunityThreatFeedProp
             Refresh
           </Button>
 
-          <Button
-            size="sm"
-            onClick={() => {
-              if (!isAuthenticated) {
-                setAuthRequiredNotice(
-                  "Authentication Required: Guest mode is read-only. Sign in with Firebase to submit new verified threats to the Community Intelligence feed.",
-                );
-                return;
-              }
-              setAuthRequiredNotice(null);
-              setModalOpen(true);
-            }}
-            className="rounded-none bg-primary text-primary-foreground h-8 text-xs font-semibold hover:bg-primary/90"
-          >
-            {isAuthenticated ? (
-              <>
-                <Plus size={13} className="mr-1.5" />
-                Submit Threat
-              </>
-            ) : (
-              <>
-                <Lock size={13} className="mr-1.5 text-warning" />
-                Submit Threat (Sign In Req)
-              </>
-            )}
-          </Button>
+          {canParticipate ? (
+            <Button
+              size="sm"
+              onClick={() => setModalOpen(true)}
+              className="rounded-none bg-primary text-primary-foreground h-8 text-xs font-semibold hover:bg-primary/90"
+            >
+              <Plus size={13} className="mr-1.5" />
+              Submit Threat
+            </Button>
+          ) : (
+            <span className="flex h-8 items-center gap-1.5 border border-border px-3 text-xs text-muted-foreground" title="Sign-in is not available until Firebase is connected">
+              Sign-in required to participate
+            </span>
+          )}
         </div>
       </div>
-
-      {/* Guest Warning / Notice Banner */}
-      {authRequiredNotice && (
-        <div className="border border-warning/40 bg-warning/10 p-3.5 flex items-start justify-between gap-3 text-xs text-warning font-mono">
-          <div className="flex items-start gap-2">
-            <Lock size={15} className="shrink-0 mt-0.5 text-warning" />
-            <div>
-              <span className="font-bold">PARTICIPATION RESTRICTED: </span>
-              <span>{authRequiredNotice}</span>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => setAuthRequiredNotice(null)}
-            className="text-warning/80 hover:text-warning"
-          >
-            ✕
-          </button>
-        </div>
-      )}
 
       {/* Control Bar: Tag Filters, Search, and Sort */}
       <div className="space-y-3">
@@ -470,22 +429,32 @@ export function CommunityThreatFeed({ onInspectDomain }: CommunityThreatFeedProp
 
                 {/* Upvote Button */}
                 <div className="flex md:justify-end items-center">
-                  <button
-                    type="button"
-                    onClick={() => handleUpvote(threat.id)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-semibold border transition-all ${
-                      hasVoted
-                        ? "border-primary bg-primary text-primary-foreground shadow-[0_0_12px_rgba(45,212,191,0.25)]"
-                        : "border-border bg-card hover:bg-secondary text-foreground hover:border-primary/50"
-                    }`}
-                    title={hasVoted ? "Click to remove upvote" : "Upvote this threat report"}
-                  >
-                    <ThumbsUp
-                      size={12}
-                      className={hasVoted ? "text-primary-foreground" : "text-primary"}
-                    />
-                    <span className="tabular-nums">{threat.votes}</span>
-                  </button>
+                  {canParticipate ? (
+                    <button
+                      type="button"
+                      onClick={() => handleUpvote(threat.id)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-semibold border transition-all ${
+                        hasVoted
+                          ? "border-primary bg-primary text-primary-foreground shadow-[0_0_12px_rgba(45,212,191,0.25)]"
+                          : "border-border bg-card hover:bg-secondary text-foreground hover:border-primary/50"
+                      }`}
+                      title={hasVoted ? "Click to remove upvote" : "Upvote this threat report"}
+                    >
+                      <ThumbsUp
+                        size={12}
+                        className={hasVoted ? "text-primary-foreground" : "text-primary"}
+                      />
+                      <span className="tabular-nums">{threat.votes}</span>
+                    </button>
+                  ) : (
+                    <span
+                      className="flex items-center gap-1.5 border border-border px-3 py-1.5 text-xs font-mono text-muted-foreground"
+                      title="Sign-in is not available until Firebase is connected"
+                    >
+                      <ThumbsUp size={12} />
+                      <span className="tabular-nums">{threat.votes}</span>
+                    </span>
+                  )}
                 </div>
               </div>
             );

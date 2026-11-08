@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import { AuthProvider } from "@/lib/auth-context";
 import { CommunityThreatFeed } from "@/components/CommunityThreatFeed";
 
 const mockThreats = [
@@ -30,44 +29,8 @@ const mockThreats = [
   },
 ];
 
-function renderWithAuth(
-  ui: React.ReactElement,
-  initialAuthState?: {
-    isAuthenticated: boolean;
-    user?: {
-      uid: string;
-      email: string;
-      displayName: string;
-      provider: "firebase" | "github" | "google";
-      role: "contributor" | "analyst";
-    };
-  },
-) {
-  if (initialAuthState?.isAuthenticated) {
-    localStorage.setItem(
-      "trustguard_auth_state",
-      JSON.stringify({
-        isAuthenticated: true,
-        isGuest: false,
-        user: initialAuthState.user || {
-          uid: "test_usr",
-          email: "analyst@trustguard.ai",
-          displayName: "Analyst",
-          provider: "firebase",
-          role: "contributor",
-        },
-      }),
-    );
-  } else {
-    localStorage.clear();
-  }
-
-  return render(<AuthProvider>{ui}</AuthProvider>);
-}
-
 describe("CommunityThreatFeed Component", () => {
   beforeEach(() => {
-    localStorage.clear();
     vi.stubGlobal(
       "fetch",
       vi.fn().mockImplementation((url: string) => {
@@ -86,7 +49,7 @@ describe("CommunityThreatFeed Component", () => {
   });
 
   it("renders the feed title and loads threat reports", async () => {
-    renderWithAuth(<CommunityThreatFeed />);
+    render(<CommunityThreatFeed />);
     expect(screen.getByText("Community Threat Intelligence")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -96,7 +59,7 @@ describe("CommunityThreatFeed Component", () => {
   });
 
   it("filters reports by tag when clicking 'Malware'", async () => {
-    renderWithAuth(<CommunityThreatFeed />);
+    render(<CommunityThreatFeed />);
 
     await waitFor(() => {
       expect(screen.getByText("phishing-target.com")).toBeInTheDocument();
@@ -110,7 +73,7 @@ describe("CommunityThreatFeed Component", () => {
   });
 
   it("filters reports by tag when clicking 'Phishing'", async () => {
-    renderWithAuth(<CommunityThreatFeed />);
+    render(<CommunityThreatFeed />);
 
     await waitFor(() => {
       expect(screen.getByText("phishing-target.com")).toBeInTheDocument();
@@ -123,24 +86,8 @@ describe("CommunityThreatFeed Component", () => {
     expect(screen.queryByText("malware-dropper.net")).not.toBeInTheDocument();
   });
 
-  it("blocks guest upvoting with warning notice", async () => {
-    renderWithAuth(<CommunityThreatFeed />); // unauthenticated guest
-
-    await waitFor(() => {
-      expect(screen.getByText("10")).toBeInTheDocument();
-    });
-
-    const upvoteButtons = screen.getAllByTitle(/upvote/i);
-    const firstUpvoteButton = upvoteButtons[0];
-    if (!firstUpvoteButton) throw new Error("Upvote button not found");
-
-    fireEvent.click(firstUpvoteButton);
-
-    expect(screen.getByText(/PARTICIPATION RESTRICTED/i)).toBeInTheDocument();
-  });
-
-  it("handles upvoting when user is authenticated with Firebase", async () => {
-    renderWithAuth(<CommunityThreatFeed />, { isAuthenticated: true });
+  it("handles upvoting a threat report", async () => {
+    render(<CommunityThreatFeed />);
 
     await waitFor(() => {
       expect(screen.getByText("10")).toBeInTheDocument();

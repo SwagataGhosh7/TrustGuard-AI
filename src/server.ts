@@ -146,6 +146,11 @@ export default {
     }
 
     if (url.pathname === "/api/threats" && request.method === "POST") {
+      return new Response(
+        JSON.stringify({ error: "Community participation is unavailable until sign-in is configured." }),
+        { status: 403, headers: { "content-type": "application/json" } },
+      );
+      /* Participation remains server-denied until Firebase identity tokens are verified here.
       try {
         const body = (await request.json()) as {
           domain: string;
@@ -166,9 +171,15 @@ export default {
           headers: { "content-type": "application/json" },
         });
       }
+      */
     }
 
     if (url.pathname === "/api/threats/vote" && request.method === "POST") {
+      return new Response(
+        JSON.stringify({ error: "Community participation is unavailable until sign-in is configured." }),
+        { status: 403, headers: { "content-type": "application/json" } },
+      );
+      /* Participation remains server-denied until Firebase identity tokens are verified here.
       try {
         const body = (await request.json()) as { id: string; delta: number };
         const updated = voteThreatReport(body.id, body.delta || 1);
@@ -187,6 +198,7 @@ export default {
           headers: { "content-type": "application/json" },
         });
       }
+      */
     }
     try {
       const handler = await getServerEntry();
