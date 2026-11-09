@@ -27,7 +27,7 @@ import {
 
 import { BrowserExtensionGuide } from "@/components/BrowserExtensionGuide";
 import { BulkUrlScanner } from "@/components/BulkUrlScanner";
-import { CommunityThreatFeed } from "@/components/CommunityThreatFeed";
+import { CommunityHub } from "@/components/CommunityHub";
 import { ShareReportModal } from "@/components/ShareReportModal";
 import { TrustScoreTrendChart } from "@/components/TrustScoreTrendChart";
 import { Button } from "@/components/ui/button";
@@ -1007,14 +1007,7 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
           </div>
 
           {canAccessCommunityIntelligence ? (
-            <CommunityThreatFeed
-              onInspectDomain={(domain) => {
-                setUrlInput(domain);
-                handleScan(domain);
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              canParticipate={true}
-            />
+            <CommunityHub />
           ) : (
             <div className="border-2 border-[#ff6b35]/60 bg-[#0c1017] p-8 sm:p-10 shadow-2xl relative overflow-hidden">
               <div className="max-w-2xl space-y-4">
