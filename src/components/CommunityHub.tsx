@@ -80,7 +80,19 @@ function Avatar({ name, photoURL, size = "size-9" }: CommunityProfile & { size?:
 }
 
 function formatDate(value: CommunityPost["createdAt"]) {
-  return value?.toDate ? value.toDate().toLocaleString() : "Just now";
+  if (!value?.toDate) return "Just now";
+
+  const createdAt = value.toDate();
+  const elapsedSeconds = Math.max(0, Math.floor((Date.now() - createdAt.getTime()) / 1000));
+  if (elapsedSeconds < 60) return "Just now";
+  if (elapsedSeconds < 3600) return `${Math.floor(elapsedSeconds / 60)}m ago`;
+  if (elapsedSeconds < 86400) return `${Math.floor(elapsedSeconds / 3600)}h ago`;
+  if (elapsedSeconds < 604800) return `${Math.floor(elapsedSeconds / 86400)}d ago`;
+
+  return createdAt.toLocaleString([], {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
 }
 
 export function CommunityHub() {
