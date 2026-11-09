@@ -96,6 +96,7 @@ export function CommunityHub() {
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
   const [chatDraft, setChatDraft] = useState("");
   const [notice, setNotice] = useState("");
+  const [submittingPost, setSubmittingPost] = useState(false);
 
   const chatId = useMemo(() => {
     if (!user || !selectedChat) return null;
@@ -179,19 +180,30 @@ export function CommunityHub() {
 
   const createPost = async (event: FormEvent) => {
     event.preventDefault();
-    if (!db || !user || !body.trim()) return;
-    await addDoc(collection(db, "communityPosts"), {
-      authorId: user.uid,
-      authorName: user.displayName || user.email?.split("@")[0] || "Analyst",
-      authorPhotoURL: user.photoURL || null,
-      body: body.trim(),
-      likedBy: [],
-      shareCount: 0,
-      commentCount: 0,
-      createdAt: serverTimestamp(),
-    });
+    const postBody = body.trim();
+    if (!db || !user || !postBody || submittingPost) return;
+
+    setSubmittingPost(true);
     setBody("");
-    setNotice("Post published to the community.");
+    try {
+      await addDoc(collection(db, "communityPosts"), {
+        authorId: user.uid,
+        authorName: user.displayName || user.email?.split("@")[0] || "Analyst",
+        authorPhotoURL: user.photoURL || null,
+        body: postBody,
+        likedBy: [],
+        shareCount: 0,
+        commentCount: 0,
+        createdAt: serverTimestamp(),
+      });
+      setNotice("Post published to the community.");
+    } catch (error) {
+      setBody(postBody);
+      setNotice("Post could not be published. Please try again.");
+      console.error("Failed to publish community post:", error);
+    } finally {
+      setSubmittingPost(false);
+    }
   };
 
   const toggleLike = async (post: CommunityPost) => {
@@ -293,8 +305,8 @@ export function CommunityHub() {
           />
           <div className="mt-3 flex items-center justify-between">
             <span className="text-[11px] text-zinc-500">Posts are visible to signed-in analysts.</span>
-            <Button type="submit" disabled={!body.trim()} className="rounded-none bg-[#2dd4bf] text-black">
-              <Send size={14} className="mr-2" /> Publish
+            <Button type="submit" disabled={!body.trim() || submittingPost} className="rounded-none bg-[#2dd4bf] text-black">
+              <Send size={14} className="mr-2" /> {submittingPost ? "Publishing..." : "Publish"}
             </Button>
           </div>
         </form>
@@ -336,7 +348,6 @@ export function CommunityHub() {
                       <small className="text-[10px] text-zinc-500">{formatDate(post.createdAt)}</small>
                     </span>
                   </button>
-                  <span className="text-[10px] text-[#2dd4bf]">ANALYST POST</span>
                 </div>
                 <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-zinc-200">{post.body}</p>
                 <div className="mt-4 flex items-center gap-2 border-t border-[#243346] pt-3">
