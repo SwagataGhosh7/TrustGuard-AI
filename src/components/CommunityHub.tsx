@@ -392,7 +392,7 @@ export function CommunityHub() {
 
       <aside className="space-y-5">
         <div className="border border-[#243346] bg-[#0c1017] p-4">
-          <div className="mb-3 flex items-center gap-2 text-xs text-[#a3e635]">
+          <div className="mb-3 flex items-center gap-2 font-pixel text-[10px] text-[#a3e635]">
             <Users size={15} /> COMMUNITY ANALYSTS
           </div>
           <div className="space-y-2">
@@ -407,12 +407,16 @@ export function CommunityHub() {
                 </Button>
               </div>
             ))}
-            {profiles.length <= 1 && <p className="text-xs text-zinc-500">Other analyst profiles appear as they join.</p>}
+            {profiles.length <= 1 && (
+              <p className="font-pixel text-[10px] leading-5 text-zinc-500">
+                Other analyst profiles appear as they join.
+              </p>
+            )}
           </div>
         </div>
 
         <div className="border border-[#243346] bg-[#0c1017] p-4">
-          <div className="flex items-center gap-2 text-xs text-[#fef08a]">
+          <div className="flex items-center gap-2 font-pixel text-[10px] text-[#fef08a]">
             <Bell size={15} /> NOTIFICATIONS
             {notificationCount > 0 && (
               <span className="rounded-full bg-[#ff6b35] px-1.5 py-0.5 text-[10px] text-black">
@@ -420,7 +424,7 @@ export function CommunityHub() {
               </span>
             )}
           </div>
-          <p className="mt-3 text-xs leading-5 text-zinc-500">
+          <p className="mt-3 font-pixel text-[10px] leading-5 text-zinc-500">
             Likes and comments on your posts appear here in real time.
           </p>
         </div>
