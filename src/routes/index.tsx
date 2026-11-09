@@ -175,6 +175,21 @@ export default function WelcomePage() {
           <div className="flex items-center gap-3">
             {user ? (
               <div className="flex items-center gap-2.5 bg-[#121924] border border-[#2dd4bf]/40 px-3 py-1.5 font-mono text-xs">
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt={`${user.displayName || "Analyst"} profile`}
+                    className="size-7 rounded-full border border-[#2dd4bf]/60 object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div
+                    aria-label={`${user.displayName || "Analyst"} profile`}
+                    className="flex size-7 items-center justify-center rounded-full border border-[#2dd4bf]/60 bg-[#2dd4bf]/15 text-xs font-bold text-[#2dd4bf]"
+                  >
+                    {(user.displayName || user.email || "A").charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <span className="size-2 rounded-full bg-[#2dd4bf] animate-ping" />
                 <span className="text-[#2dd4bf] font-semibold truncate max-w-[140px]">
                   {user.displayName || user.email}

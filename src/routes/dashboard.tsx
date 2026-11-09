@@ -315,6 +315,21 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
           <div className="flex items-center gap-2.5 shrink-0">
             {user ? (
               <div className="flex items-center gap-2">
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt={`${user.displayName || "Analyst"} profile`}
+                    className="size-7 rounded-full border border-[#2dd4bf]/60 object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div
+                    aria-label={`${user.displayName || "Analyst"} profile`}
+                    className="flex size-7 items-center justify-center rounded-full border border-[#2dd4bf]/60 bg-[#2dd4bf]/15 text-xs font-bold text-[#2dd4bf]"
+                  >
+                    {(user.displayName || user.email || "A").charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <div className="flex items-center gap-1.5 border border-[#2dd4bf]/40 bg-[#121924] px-2.5 py-1 text-xs font-mono">
                   <span className="size-2 rounded-full bg-[#2dd4bf] animate-pulse" />
                   <span className="truncate max-w-[120px] text-[#2dd4bf] font-semibold">
