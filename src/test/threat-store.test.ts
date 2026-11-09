@@ -2,10 +2,9 @@ import { describe, expect, it } from "vitest";
 import { addThreatReport, getAllThreats, voteThreatReport } from "@/server/threat-store";
 
 describe("Community Threat Store", () => {
-  it("retrieves seeded threats sorted by votes", () => {
+  it("starts with no built-in threat reports", () => {
     const threats = getAllThreats();
-    expect(threats.length).toBeGreaterThan(0);
-    expect(threats[0]?.votes).toBeGreaterThanOrEqual(threats[1]?.votes ?? 0);
+    expect(threats).toEqual([]);
   });
 
   it("adds a new threat report with clean domain and initial votes", () => {
@@ -22,9 +21,12 @@ describe("Community Threat Store", () => {
   });
 
   it("increments upvotes on a threat report", () => {
-    const threats = getAllThreats();
-    const first = threats[0];
-    if (!first) throw new Error("No threats found");
+    const first = addThreatReport({
+      domain: "vote-test.example",
+      vector: "Suspicious Portal",
+      severity: "High",
+      notes: "Test report for voting.",
+    });
 
     const previousVotes = first.votes;
     const updated = voteThreatReport(first.id, 1);

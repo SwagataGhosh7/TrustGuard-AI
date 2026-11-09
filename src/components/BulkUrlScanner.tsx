@@ -269,7 +269,7 @@ export function BulkUrlScanner({ onInspectDomain }: BulkUrlScannerProps) {
           id="bulk-domains-textarea"
           value={inputUrls}
           onChange={(e) => setInputUrls(e.target.value)}
-          placeholder="example.com&#10;paypal.com&#10;secure-login-hdfc-update.com&#10;github.com"
+          placeholder="example.com&#10;paypal.com&#10;github.com"
           rows={4}
           disabled={isRunning}
           className="rounded-none border-amber-500/40 bg-black/80 font-code text-xs text-amber-100 placeholder:text-zinc-600 focus-visible:ring-amber-500 leading-relaxed shadow-inner"
