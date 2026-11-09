@@ -13,8 +13,8 @@ function ExtensionPage() {
     <div className="min-h-screen bg-[#070a0e] text-[#e2e8f0]">
       <header className="border-b border-[#243346] bg-[#0c1017]/95 px-4 py-4 sm:px-8">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between">
-          <Link to="/dashboard" className="flex items-center gap-2 text-xs font-pixel text-[#fef08a]">
-            <ArrowLeft size={14} /> Dashboard
+          <Link to="/dashboard" className="flex items-center gap-2 text-xs font-pixel text-[#ef4444] hover:text-[#f87171]">
+            <ArrowLeft size={14} /> EXIT
           </Link>
           <span className="font-pixel text-xs text-[#fef08a]">MV3 EXTENSION</span>
         </div>
