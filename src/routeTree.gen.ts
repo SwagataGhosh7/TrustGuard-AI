@@ -10,11 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BulkAuditRouteImport } from './routes/bulk-audit'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ExtensionRouteImport } from './routes/extension'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BulkAuditRoute = BulkAuditRouteImport.update({
+  id: '/bulk-audit',
+  path: '/bulk-audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -22,31 +35,54 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExtensionRoute = ExtensionRouteImport.update({
+  id: '/extension',
+  path: '/extension',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bulk-audit': typeof BulkAuditRoute
+  '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/extension': typeof ExtensionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bulk-audit': typeof BulkAuditRoute
+  '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/extension': typeof ExtensionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bulk-audit': typeof BulkAuditRoute
+  '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/extension': typeof ExtensionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard'
+  fullPaths: '/' | '/bulk-audit' | '/community' | '/dashboard' | '/extension'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard'
-  id: '__root__' | '/' | '/dashboard'
+  to: '/' | '/bulk-audit' | '/community' | '/dashboard' | '/extension'
+  id:
+    | '__root__'
+    | '/'
+    | '/bulk-audit'
+    | '/community'
+    | '/dashboard'
+    | '/extension'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BulkAuditRoute: typeof BulkAuditRoute
+  CommunityRoute: typeof CommunityRoute
   DashboardRoute: typeof DashboardRoute
+  ExtensionRoute: typeof ExtensionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +94,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bulk-audit': {
+      id: '/bulk-audit'
+      path: '/bulk-audit'
+      fullPath: '/bulk-audit'
+      preLoaderRoute: typeof BulkAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -65,12 +115,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/extension': {
+      id: '/extension'
+      path: '/extension'
+      fullPath: '/extension'
+      preLoaderRoute: typeof ExtensionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BulkAuditRoute: BulkAuditRoute,
+  CommunityRoute: CommunityRoute,
   DashboardRoute: DashboardRoute,
+  ExtensionRoute: ExtensionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

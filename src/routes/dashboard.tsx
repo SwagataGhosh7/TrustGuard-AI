@@ -7,8 +7,6 @@ import {
   FileCheck2,
   Globe2,
   KeyRound,
-  Layers,
-  LineChart,
   Lock,
   LockKeyhole,
   LogOut,
@@ -21,13 +19,9 @@ import {
   ShieldCheck,
   Terminal,
   Trash2,
-  Users,
   Zap,
 } from "lucide-react";
 
-import { BrowserExtensionGuide } from "@/components/BrowserExtensionGuide";
-import { BulkUrlScanner } from "@/components/BulkUrlScanner";
-import { CommunityHub } from "@/components/CommunityHub";
 import { ShareReportModal } from "@/components/ShareReportModal";
 import { TrustScoreTrendChart } from "@/components/TrustScoreTrendChart";
 import { Button } from "@/components/ui/button";
@@ -215,11 +209,6 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
     setTimeout(() => setCopiedNotification(false), 2500);
   }
 
-  function navigateTo(id: string) {
-    setMobileNavOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  }
-
   return (
     <div className="min-h-screen bg-[#070a0e] text-[#e2e8f0] font-sans antialiased selection:bg-[#ff6b35]/30 selection:text-[#ff8a00] relative overflow-x-hidden">
       {/* Background Subtle Cyber Matrix Grid */}
@@ -259,37 +248,14 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
 
           {/* Zone 2: Navigation Links with Pixel Headers */}
           <nav className="hidden lg:flex items-center gap-6 text-[11px] font-pixel text-[#94a3b8]">
-            <button
-              type="button"
-              onClick={() => navigateTo("dashboard")}
-              className="hover:text-[#a3e635] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
-            >
-              Analyze
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("cert-inspector")}
-              className="hover:text-[#2dd4bf] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
-            >
-              Cert Audit
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("trust-trends")}
-              className="hover:text-[#00f0ff] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
-            >
-              Surveillance
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("bulk-scanner")}
+            <Link
+              to="/bulk-audit"
               className="hover:text-[#ff6b35] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
             >
               Bulk Audit
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("threat-feed")}
+            </Link>
+            <Link
+              to="/community"
               className="hover:text-[#a3e635] transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 uppercase tracking-wide cursor-pointer"
             >
               <span>Community IOCs</span>
@@ -301,14 +267,13 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
                   Locked
                 </span>
               )}
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("extension-guide")}
+            </Link>
+            <Link
+              to="/extension"
               className="hover:text-[#fef08a] transition-colors whitespace-nowrap shrink-0 uppercase tracking-wide cursor-pointer"
             >
               MV3 Extension
-            </button>
+            </Link>
           </nav>
 
           {/* Zone 3: Actions & Auth Status */}
@@ -395,48 +360,24 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
 
         {mobileNavOpen && (
           <div className="lg:hidden border-t border-[#243346] px-5 py-3 space-y-2 bg-[#0c1017] font-pixel text-xs">
-            <button
-              type="button"
-              onClick={() => navigateTo("dashboard")}
-              className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#a3e635]"
-            >
-              Analyze
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("cert-inspector")}
-              className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#2dd4bf]"
-            >
-              Certificate Audit
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("trust-trends")}
-              className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#00f0ff]"
-            >
-              Trust Surveillance
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("bulk-scanner")}
+            <Link
+              to="/bulk-audit"
               className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#ff6b35]"
             >
               Bulk Audit
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("threat-feed")}
+            </Link>
+            <Link
+              to="/community"
               className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#a3e635]"
             >
               Community Intelligence
-            </button>
-            <button
-              type="button"
-              onClick={() => navigateTo("extension-guide")}
+            </Link>
+            <Link
+              to="/extension"
               className="block w-full text-left py-1 text-[#94a3b8] hover:text-[#fef08a]"
             >
               Browser Extension
-            </button>
+            </Link>
             <div className="pt-2 border-t border-[#243346] flex items-center justify-between">
               {user ? (
                 <button
@@ -970,119 +911,6 @@ eMudhra CA Check: ${scanResult.certificate.emudhraVulnerabilityCheck.keyGenerati
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           />
-        </section>
-
-        {/* Section 03: Bulk URL Concurrent Threat Assessment Matrix */}
-        <section id="bulk-scanner" className="space-y-4 pt-4">
-          <div className="flex items-center gap-2 border-b border-[#243346] pb-3">
-            <span className="font-pixel text-[11px] px-2 py-0.5 bg-[#ff6b35] text-black font-bold uppercase">
-              MODULE 03
-            </span>
-            <span className="font-arcade text-xs sm:text-sm text-[#f8fafc] tracking-wider uppercase">
-              BULK URL THREAT ASSESSMENT
-            </span>
-          </div>
-          <BulkUrlScanner
-            onInspectDomain={(domain, scanData) => {
-              setUrlInput(domain);
-              if (scanData) {
-                setScanResult(scanData);
-              } else {
-                handleScan(domain);
-              }
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          />
-        </section>
-
-        {/* Section 04: Community Threat Intelligence (Gated for Guests, Active for Authenticated) */}
-        <section id="threat-feed" className="space-y-4 pt-4">
-          <div className="flex items-center gap-2 border-b border-[#243346] pb-3">
-            <span className="font-pixel text-[11px] px-2 py-0.5 bg-[#a3e635] text-black font-bold uppercase">
-              MODULE 04
-            </span>
-            <span className="font-arcade text-xs sm:text-sm text-[#f8fafc] tracking-wider uppercase">
-              COMMUNITY THREAT INTELLIGENCE
-            </span>
-          </div>
-
-          {canAccessCommunityIntelligence ? (
-            <CommunityHub />
-          ) : (
-            <div className="border-2 border-[#ff6b35]/60 bg-[#0c1017] p-8 sm:p-10 shadow-2xl relative overflow-hidden">
-              <div className="max-w-2xl space-y-4">
-                <div className="inline-flex items-center gap-2 font-pixel text-[11px] text-[#ff6b35] tracking-wider uppercase bg-[#ff6b35]/10 px-2.5 py-1 border border-[#ff6b35]/30">
-                  <Lock size={13} />
-                  COMMUNITY THREAT INTELLIGENCE // RESTRICTED ACCESS
-                </div>
-
-                <h2 className="font-arcade text-lg sm:text-xl text-[#f8fafc] tracking-tight leading-snug">
-                  ANALYST AUTHENTICATION REQUIRED
-                </h2>
-
-                <p className="font-code text-xs sm:text-sm text-[#94a3b8] leading-relaxed">
-                  You are currently exploring TrustGuard AI in{" "}
-                  <strong className="text-[#f8fafc]">Guest Mode</strong>. While single-domain
-                  probing, bulk security scans, and trust trend surveillance are fully accessible,
-                  the live collaborative threat feed is locked to protect community consensus
-                  against unverified or automated submissions.
-                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 py-2 font-code text-xs text-[#94a3b8]">
-                  <div className="p-3 border border-[#243346] bg-[#121924]">
-                    <span className="text-[#a3e635] font-pixel text-[10px] block mb-1">
-                      01. Live IOCs
-                    </span>
-                    Confirmed malicious domains & phishing signatures.
-                  </div>
-                  <div className="p-3 border border-[#243346] bg-[#121924]">
-                    <span className="text-[#ff6b35] font-pixel text-[10px] block mb-1">
-                      02. Upvote Signals
-                    </span>
-                    Boost community verification on active attack campaigns.
-                  </div>
-                  <div className="p-3 border border-[#243346] bg-[#121924]">
-                    <span className="text-[#00f0ff] font-pixel text-[10px] block mb-1">
-                      03. Incident Reporting
-                    </span>
-                    Publish newly discovered weak CAs & typosquats.
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-3 pt-3">
-                  <Button
-                    onClick={handleSignIn}
-                    className="h-10 px-6 rounded-none bg-[#ff6b35] hover:bg-[#ff8a00] text-black font-arcade text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(255,107,53,0.35)] cursor-pointer"
-                  >
-                    ⚡ SIGN IN WITH GOOGLE TO UNLOCK
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      document.getElementById("target-domain-input")?.focus();
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                    className="h-10 px-4 rounded-none border-[#334155] text-xs font-code text-[#94a3b8] hover:text-[#f8fafc] cursor-pointer"
-                  >
-                    Continue Using Guest Probing
-                  </Button>
-                </div>
-              </div>
-            </div>
-          )}
-        </section>
-
-        {/* Section 05: Browser Extension Integration Guide & Snippet Suite */}
-        <section id="extension-guide" className="space-y-4 pt-4">
-          <div className="flex items-center gap-2 border-b border-[#243346] pb-3">
-            <span className="font-pixel text-[11px] px-2 py-0.5 bg-[#fef08a] text-black font-bold uppercase">
-              MODULE 05
-            </span>
-            <span className="font-arcade text-xs sm:text-sm text-[#f8fafc] tracking-wider uppercase">
-              BROWSER EXTENSION INTEGRATION
-            </span>
-          </div>
-          <BrowserExtensionGuide />
         </section>
 
         {/* Footer */}
